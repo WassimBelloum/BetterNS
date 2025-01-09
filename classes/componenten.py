@@ -9,8 +9,8 @@ class Station():
         self.x = x
         self.connecties = connecties
 
-if __name__ == "__main__":
-    
+def get_stations() -> list[Station]:
+
     stations = []
 
     with open('StationsHolland.csv', 'r') as csv_file_stations_Holland:
@@ -44,6 +44,13 @@ if __name__ == "__main__":
                     station.connecties[station2] = afstand
                 # elif station.naam == station2:
                 #     station.connecties[station1] = afstand
+
+    return stations
+    
+
+if __name__ == "__main__":
+    
+    stations = get_stations()
 
     for station in stations:
         print(f'Station: {station.naam}, y: {station.y}, x: {station.x}, connecties: {station.connecties}')
