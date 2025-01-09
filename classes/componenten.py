@@ -30,7 +30,7 @@ if __name__ == "__main__":
         # for station in stations: print(f'Station: {station.naam}, x: {station.x}, y: {station.y}')
     
     with open('ConnectiesHolland.csv', 'r') as csv_file_connecties_Holland:
-        csv_reader = csv.reader(csv_file_connecties_Holland, delimiter=';')
+        csv_reader = csv.reader(csv_file_connecties_Holland)
 
         next(csv_reader)
 
