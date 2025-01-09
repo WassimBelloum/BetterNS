@@ -19,9 +19,12 @@ def planning(connections_set, maximum_lines, maximum_time):
     ## Create lines
     lines = []
     ## Create driven connections
-    completed_connections = set()
+    completed_connections = {}
     ## Transform connections set into sorted list based on travel time
-    connections = sorted(list(connections_set), key=lambda x: x[2])
+    connections = sorted(list(connections_set), key = lambda x: x[2])
+    
+    def can_use_connection(connection):
+        return completed_connections.get(connection, 0) < 2
     
     ## Loop until maximum lines is reached
     for line_number in range(maximum_lines):
@@ -42,7 +45,7 @@ def planning(connections_set, maximum_lines, maximum_time):
             ## Loop through connections
             for connection in connections:
                 ## Check if connection is already covered
-                if connection not in completed_connections:
+                if can_use_connection(connection):
                     ## Set start, end and time to the current connection
                     start, end, time = connection
                     
@@ -56,7 +59,8 @@ def planning(connections_set, maximum_lines, maximum_time):
                         if current_time + time <= maximum_time:
                             ## Add current connection to current line and completed connections
                             current_line.append(connection)
-                            completed_connections.add(connection)
+                            completed_connections[connection] = completed_connections.get(connection, 0) + 1
+                            used_in_line.add(connection)
                             
                             ## Add time to current time
                             current_time += time
