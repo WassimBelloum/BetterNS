@@ -9,11 +9,17 @@ class Station():
         self.x = x
         self.connecties = connecties
 
+    def __str__(self):
+        return f"({self.naam}, {self.y}, {self.x}, {self.connecties})"
+
+    def __repr__(self):
+        return self.__str__()
+
 def get_stations() -> list[Station]:
 
     stations = []
 
-    with open('StationsHolland.csv', 'r') as csv_file_stations_Holland:
+    with open('data/StationsHolland.csv', 'r') as csv_file_stations_Holland:
         csv_reader = csv.reader(csv_file_stations_Holland)
 
         next(csv_reader)
@@ -29,7 +35,7 @@ def get_stations() -> list[Station]:
         
         # for station in stations: print(f'Station: {station.naam}, x: {station.x}, y: {station.y}')
     
-    with open('ConnectiesHolland.csv', 'r') as csv_file_connecties_Holland:
+    with open('data/ConnectiesHolland.csv', 'r') as csv_file_connecties_Holland:
         csv_reader = csv.reader(csv_file_connecties_Holland)
 
         next(csv_reader)
@@ -46,11 +52,12 @@ def get_stations() -> list[Station]:
                 #     station.connecties[station1] = afstand
 
     return stations
-    
 
-if __name__ == "__main__":
-    
-    stations = get_stations()
+## test
 
-    for station in stations:
-        print(f'Station: {station.naam}, y: {station.y}, x: {station.x}, connecties: {station.connecties}')
+# if __name__ == "__main__":
+    
+#     stations = get_stations()
+
+#     for station in stations:
+#         print(f'Station: {station.naam}, y: {station.y}, x: {station.x}, connecties: {station.connecties}')
