@@ -3,8 +3,8 @@ from .connections import Connection
 class Station():
     def __init__(self, name: str, y: float, x: float, connections: dict[int, Connection]) -> None:
         self.name = name
-        self.y = y
-        self.x = x
+        self.y = float(y)
+        self.x = float(x)
         self.connections = connections
 
     def __str__(self) -> str:

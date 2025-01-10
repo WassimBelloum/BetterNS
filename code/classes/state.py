@@ -21,7 +21,7 @@ class State():
                 time = row[2]
                 
                 connections[index] = (Connection(station_a, station_b, time))
-        print(connections)
+        # print(connections)
         return connections
         
         
@@ -39,5 +39,5 @@ class State():
                     if connection.station_a == name or connection.station_b == name:
                         station_connections.append(connection)
                 stations.append(Station(name, y, x, station_connections))
-        print(stations)
+        # print(stations)
         return stations
