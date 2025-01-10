@@ -1,4 +1,4 @@
-from . connections import Connection
+from .connections import Connection
 
 class Station():
     def __init__(self, name: str, y: float, x: float, connections: dict[int, Connection]) -> None:
