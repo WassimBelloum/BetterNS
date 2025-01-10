@@ -1,9 +1,6 @@
 import random
 
-max_lines = 7
-max_time = 120
-
-def random_lines(state):
+def random_lines(state, max_lines, max_time):
     train_plan = []
     for line_number in range(max_lines):
         current_line = []
@@ -12,11 +9,15 @@ def random_lines(state):
         while True:
             added_any_connection = False
             current_connection = random.choice(current_station.connections)
-            start, end, time, times_covered = current_connection
-            if current_time + time <= maximum_time:
+            print(current_station)
+            print(current_connection)
+            start = current_connection.station_a
+            end = current_connection.station_b
+            time = current_connection.time
+            if current_time + time <= max_time:
                 current_line.append(current_connection)
                 current_time += time
-                current_station = end if start == current_station else start
+                current_station.name = end if start == current_station.name else start
                 added_any_connection = True
             if not added_any_connection:
                 if current_line:
