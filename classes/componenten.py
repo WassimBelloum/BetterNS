@@ -15,49 +15,49 @@ class Station():
     def __repr__(self):
         return self.__str__()
 
-def get_stations() -> list[Station]:
+    def get_stations() -> list['Station']:
 
-    stations = []
+        stations = []
 
-    with open('data/StationsHolland.csv', 'r') as csv_file_stations_Holland:
-        csv_reader = csv.reader(csv_file_stations_Holland)
+        with open('../data/StationsHolland.csv', 'r') as csv_file_stations_Holland:
+            csv_reader = csv.reader(csv_file_stations_Holland)
 
-        next(csv_reader)
+            next(csv_reader)
 
-        for row in csv_reader:
-            naam = row[0]
-            y = float(row[1])
-            x = float(row[2])
+            for row in csv_reader:
+                naam = row[0]
+                y = float(row[1])
+                x = float(row[2])
+            
+                station = Station(naam, y, x)
+
+                stations.append(station)
+            
+            # for station in stations: print(f'Station: {station.naam}, x: {station.x}, y: {station.y}')
         
-            station = Station(naam, y, x)
+        with open('../data/ConnectiesHolland.csv', 'r') as csv_file_connecties_Holland:
+            csv_reader = csv.reader(csv_file_connecties_Holland)
 
-            stations.append(station)
-        
-        # for station in stations: print(f'Station: {station.naam}, x: {station.x}, y: {station.y}')
-    
-    with open('data/ConnectiesHolland.csv', 'r') as csv_file_connecties_Holland:
-        csv_reader = csv.reader(csv_file_connecties_Holland)
+            next(csv_reader)
 
-        next(csv_reader)
+            for row in csv_reader:
+                station1 = row[0]
+                station2 = row[1]
+                afstand = float(row[2])
 
-        for row in csv_reader:
-            station1 = row[0]
-            station2 = row[1]
-            afstand = float(row[2])
+                for station in stations:
+                    if station.naam == station1:
+                        station.connecties[station2] = afstand
+                    # elif station.naam == station2:
+                    #     station.connecties[station1] = afstand
 
-            for station in stations:
-                if station.naam == station1:
-                    station.connecties[station2] = afstand
-                # elif station.naam == station2:
-                #     station.connecties[station1] = afstand
-
-    return stations
+        return stations
 
 ## test
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     
-#     stations = get_stations()
+    stations = Station.get_stations()
 
-#     for station in stations:
-#         print(f'Station: {station.naam}, y: {station.y}, x: {station.x}, connecties: {station.connecties}')
+    for station in stations:
+        print(f'Station: {station.naam}, y: {station.y}, x: {station.x}, connecties: {station.connecties}')

@@ -8,7 +8,7 @@ def load_map():
     """
     Load the map of the Netherlands
     """
-    img = mpimg.imread('data/nederland.jpg')
+    img = mpimg.imread('data/nederland2.jpg')
     extent = [3.2, 7.2, 50.7, 53.6]
 
     plt.figure(figsize=(8, 5))

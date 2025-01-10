@@ -5,7 +5,7 @@ if __name__ == "__main__":
     stations = get_stations()
 
     img = load_map() # call the function to load the map
-    add_st = add_stations(stations)
+    add_st = get_stations(stations)
 
     plt.show()
 
