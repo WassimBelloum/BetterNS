@@ -1,7 +1,7 @@
 from code.classes import connections, stations, state
 from code.visualisation.visualisation import *
-from code.algorythm import randomise
 
+from code.algorythm import randomise
 from code.algorythm import randomise1
 
 if __name__ == "__main__":
@@ -12,5 +12,9 @@ if __name__ == "__main__":
     # load_map() # call the function to load the map
     
     add_stations(test_state.stations)
-    plt.show()
     
+    #-- randomise planning --#
+    planning = randomise.random_lines(test_state, 7, 120)
+    plot_train_lines(planning, test_state.stations)
+
+    plt.show()

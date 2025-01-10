@@ -9,8 +9,8 @@ def random_lines(state, max_lines, max_time):
         while True:
             added_any_connection = False
             current_connection = random.choice(current_station.connections)
-            print(current_station)
-            print(current_connection)
+            # print(current_station)
+            # print(current_connection)
             start = current_connection.station_a
             end = current_connection.station_b
             time = current_connection.time

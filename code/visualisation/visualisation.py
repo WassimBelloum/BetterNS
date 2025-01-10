@@ -35,9 +35,17 @@ def plot_train_lines(train_plan, stations):
         line_color = colors[i % len(colors)]
 
         for connection in line:
-            start_station, end_station, time, times_covered = connection
+            start_station = connection.station_a
+            end_station = connection.station_b
+            time = connection.time
 
-            start_y, start_x = stations[start_station].y, stations[start_station].x
-            end_y, end_x = stations[end_station].y, stations[end_station].x
+            for station in stations:
+                if station.name == start_station:
+                    start_x = station.x
+                    start_y = station.y
+                if station.name == end_station:
+                    end_x = station.x
+                    end_y = station.y
 
-            plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
+            if start_x and start_y and end_x and end_y:
+                plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
