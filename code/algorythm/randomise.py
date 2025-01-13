@@ -9,7 +9,7 @@ def random_lines(state, max_lines, max_time):
         while True:
             added_any_connection = False
             current_connection = random.choice(current_station.connections)
-            # print(current_station)
+            # print(current_station.name)
             # print(current_connection)
             start = current_connection.station_a
             end = current_connection.station_b
@@ -17,7 +17,14 @@ def random_lines(state, max_lines, max_time):
             if current_time + time <= max_time:
                 current_line.append(current_connection)
                 current_time += time
-                current_station.name = end if start == current_station.name else start
+                if current_station.name == end:
+                    for station in state.stations:
+                        if station.name == start:
+                            current_station = station
+                if current_station.name == start:
+                    for station in state.stations:
+                        if station.name == end:
+                            current_station = station
                 added_any_connection = True
             if not added_any_connection:
                 if current_line:

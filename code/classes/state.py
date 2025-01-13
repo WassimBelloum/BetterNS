@@ -41,3 +41,28 @@ class State():
                 stations.append(Station(name, y, x, station_connections))
         # print(stations)
         return stations
+        
+    def connections_covered(self, train_plan: list, connections: dict[int, Connection]) -> int:
+        unique_connections = set()
+        
+        for line in train_plan:
+            for connection in line:
+                unique_connections.add(connection)
+                
+        p = (len(unique_connections))/(len(connections))
+        return p
+        
+    def lines_count(self, train_plan: list) -> int:
+        T = len(train_plan)
+        return T
+        
+    def total_time(self, train_plan: list, connections: dict[int, Connection]) -> int:
+        Min = 0
+        for line in train_plan:
+            for connection in line:
+                Min += connection.time
+        return Min
+        
+    def score(self, p: int, T: int, Min: int) -> int:
+        K = (p*10000) - ((T * 100) + Min)
+        return K
