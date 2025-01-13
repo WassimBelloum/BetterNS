@@ -16,7 +16,9 @@ def load_map():
     plt.imshow(img, extent=extent)
 
 def add_stations(stations):
-
+    """
+    Add the stations to the map
+    """
     for object in stations:
         name = object.name
         y = object.y

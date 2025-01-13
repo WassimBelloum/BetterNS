@@ -4,8 +4,16 @@ from collections import defaultdict
 from .stations import Station
 from .connections import Connection
 
-## Class containing all connections and stations
 class State():
+    """
+    A class to represent the overall state of the dutch train system.
+    The class is responsible for loading the files and creating the objects.
+
+    Attributes
+    ----------
+    - connections (dict): a dictionary containing connection objects
+    - stations (list): a list containing station objects
+    """
     def __init__(self, connections_file: str, stations_file: str) ->  None:
         ## Create stations and connections
         self.connections = self.load_connections(connections_file)
