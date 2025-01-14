@@ -34,16 +34,21 @@ def plot_train_lines(train_plan, stations):
     """
     Plot the train lines on the map
     """
+    # get the colors of the train lines from TABLEAU_COLORS
     colors = list(mcolors.TABLEAU_COLORS.values())
 
+    # iterate over the train plan
     for i, line in enumerate(train_plan):
-        line_color = colors[i % len(colors)]
+        line_color = colors[i % len(colors)] # give a color to the current line
 
+        # iterate over the connections in the line
         for connection in line:
+            # get the start and end station of the connection
             start_station = connection.station_a
             end_station = connection.station_b
             time = connection.time
 
+            # get the coordinates of the start and end station
             for station in stations:
                 if station.name == start_station:
                     start_x = station.x
