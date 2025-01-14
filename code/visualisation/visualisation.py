@@ -10,9 +10,9 @@ def load_map():
     Load the map of the Netherlands
     """
     img = mpimg.imread('data/nederland.jpg')
-    extent = [3.3, 7.3, 50.8, 53.8]
+    extent = [3.2, 7.5, 50.6, 53.8]
 
-    plt.figure(figsize=(10, 15))
+    plt.figure(figsize=(10, 10))
     plt.imshow(img, extent=extent)
 
 def add_stations(stations):
@@ -25,7 +25,10 @@ def add_stations(stations):
         x = object.x
 
         plt.scatter(x, y, s = 15)
-        plt.text(x, y, name)
+        if (len(object.connections) < 3 and name != "Heemstede-Aerdenhout") or len(object.connections) > 4:
+            if name == "Ede-Wageningen":
+                name = "Ede-Wag"
+            plt.text(x, y, name, fontsize = 8)
 
 def plot_train_lines(train_plan, stations):
     """
@@ -49,5 +52,5 @@ def plot_train_lines(train_plan, stations):
                     end_x = station.x
                     end_y = station.y
 
-            if start_x and start_y and end_x and end_y:
-                plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
+            # if start_x and start_y and end_x and end_y:
+            plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
