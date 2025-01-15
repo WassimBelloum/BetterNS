@@ -22,25 +22,31 @@ if __name__ == "__main__":
     # plot_train_lines(correct_planning, test_state.stations)
 
     # plt.show()
-    
+
+    #-- randomise1 planning --#
+    plan = randomise1.random_plan(test_state, 7, 120)
+    K = test_state.score(plan)
+    print(K)
+    plot_train_lines(plan, test_state.stations)
+    plt.show()
     
     #-- Greedy planning --#
-    planner = greedy.Greedy(test_state, max_lines, max_time)
-    best_score = 0
-    best_plan = []
-    for _ in range(100):
-        train_plan = planner.remake_greedy_plan()
-        K = test_state.score(train_plan)
-        if K > best_score:
-            best_score = K
-            best_plan = train_plan
+    # planner = greedy.Greedy(test_state, max_lines, max_time)
+    # best_score = 0
+    # best_plan = []
+    # for _ in range(100):
+    #     train_plan = planner.remake_greedy_plan()
+    #     K = test_state.score(train_plan)
+    #     if K > best_score:
+    #         best_score = K
+    #         best_plan = train_plan
     
-    for line in best_plan:
-        print(line)
-        print("")
-    print(len(best_plan))
-    print(best_score)
-    plot_train_lines(best_plan, test_state.stations)
+    # for line in best_plan:
+    #     print(line)
+    #     print("")
+    # print(len(best_plan))
+    # print(best_score)
+    # plot_train_lines(best_plan, test_state.stations)
     # plt.show()
     
     # with open('data/output.csv', 'w', newline = '') as file:
