@@ -14,13 +14,7 @@ class Greedy:
             current_line = []
             current_time = 0
             
-            uncovered_stations = []
-            for station in self.state.stations:
-                for connection in station.connections:
-                    if connection in uncovered_connections:
-                        uncovered_stations.append(station)
-                        break
-            current_station = random.choice(uncovered_stations)
+            current_station = random.choice(self.state.stations)
             
             while True:
                 added_connection = False
@@ -68,11 +62,3 @@ class Greedy:
                 if station.name == current_connection.station_a:
                     current_station = station
         return current_station
-        
-    def remake_greedy_plan(self):
-        train_plan = self.greedy_train_plan()
-        p = self.state.connections_covered(train_plan, self.state.connections)
-        while p != 1:
-            train_plan = self.greedy_train_plan()
-            p = self.state.connections_covered(train_plan, self.state.connections)
-        return train_plan

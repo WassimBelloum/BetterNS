@@ -94,15 +94,3 @@ def random_no_duplicates(state, max_lines, max_time):
                     train_plan.append(current_line)
                 break
     return train_plan
-    
-def random_reassignment(state, max_lines, max_time):
-    count = 1
-    print(count)
-    train_plan = random_no_duplicates(state, max_lines, max_time)
-    p = state.connections_covered(train_plan, state.connections)
-    while p != 1:
-        train_plan = random_no_duplicates(state, max_lines, max_time)
-        p = state.connections_covered(train_plan, state.connections)
-        count += 1
-        print(count)
-    return train_plan
