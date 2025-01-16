@@ -7,7 +7,7 @@ from code.algorythm import randomise1
 from code.algorythm import greedy
 
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
+    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
 
     load_map() # call the function to load the map
     add_stations(test_state.stations)
@@ -41,8 +41,8 @@ if __name__ == "__main__":
     print(len(best_plan))
     print(best_score)
     plot_train_lines(best_plan, test_state.stations)
-    # plt.show()
+    plt.show()
     
-    # with open('data/output.csv', 'w', newline = '') as file:
-        # writer = csv.writer(file)
-        # writer.writerows(correct_planning)
+    with open('data/output.csv', 'w', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerows(correct_planning)
