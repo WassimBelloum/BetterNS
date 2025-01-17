@@ -8,20 +8,20 @@ from code.algorythm import randomise1
 from code.algorythm import greedy
 
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
+    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
 
     # load_map() # call the function to load the map
     # add_stations(test_state.stations)
     
-    max_lines = 20
-    max_time = 180
+    max_lines = 7
+    max_time = 120
     
     #-- randomise planning --#
     # random_scores = []
     # for _ in range(10000):
-        # random_plan = randomise.random_lines(test_state, max_lines, max_time)
-        # K = test_state.score(random_plan)
-        # random_scores.append(K)
+    #     random_plan = randomise.random_lines(test_state, max_lines, max_time)
+    #     K = test_state.score(random_plan)
+    #     random_scores.append(K)
     
     
     # print(K)
