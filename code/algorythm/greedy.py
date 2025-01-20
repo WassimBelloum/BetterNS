@@ -23,8 +23,10 @@ class Greedy:
                 shortest_time = 100
                 for connection in current_station.connections:
                     if connection in uncovered_connections and connection.time <= shortest_time:
-                        valid_connections.append(connection)
                         shortest_time = connection.time
+                for connection in current_station.connections:
+                    if connection in uncovered_connections and connection.time <= shortest_time:
+                        valid_connections.append(connection)
                 
                 unused_current_line = []
                 for connection in current_station.connections:

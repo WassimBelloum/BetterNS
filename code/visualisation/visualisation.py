@@ -24,7 +24,7 @@ def add_stations(stations):
         y = object.y
         x = object.x
 
-        plt.scatter(x, y, s = 15)
+        plt.scatter(x, y, s = 15, color = "black")
         if (len(object.connections) < 3 and name != "Heemstede-Aerdenhout") or len(object.connections) > 4:
             if name == "Ede-Wageningen":
                 name = "Ede-Wag"
@@ -58,5 +58,5 @@ def plot_train_lines(train_plan, stations):
                     end_y = station.y
 
             # if start_x and start_y and end_x and end_y:
-            plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
+            plt.plot([start_x, end_x], [start_y, end_y], color = line_color)
     plt.show()
