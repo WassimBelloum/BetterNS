@@ -48,7 +48,7 @@ def results_comparison(scores_list1: list, label_list1: str, scores_list2: list,
     plt.xticks(bin_midpoints, bin_labels, rotation=45)
 
     # As-labels en titel
-    plt.xlabel("Score Intervallen (stap=500)")
+    plt.xlabel("Score Intervallen")
     plt.ylabel("Frequentie")
     plt.title("Frequentie van scores in intervallen van 500")
 
@@ -63,9 +63,6 @@ def results_comparison(scores_list1: list, label_list1: str, scores_list2: list,
 
 
 # Voorbeeld van aanroepen:
-# scores_list1 = [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
-# scores_list2 = [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
-# plot_score_histogram(scores_list1, "Dataset 1", scores_list2, "Dataset 2")
 if __name__ == "__main__":
     list1= [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
     list2= [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
