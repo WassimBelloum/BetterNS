@@ -22,19 +22,15 @@ if __name__ == "__main__":
     #     random_plan = randomise.random_lines(test_state, max_lines, max_time)
     #     K = test_state.score(random_plan)
     #     random_scores.append(K)
-    
-    
     # print(K)
     # plot_train_lines(random_plan, test_state.stations)
 
-    # plt.show()
 
     #-- randomise1 planning --#
     # random_plan = randomise1.random_plan(test_state, 7, 120)
     # K = test_state.score(random_plan)
     # print(K)
     # plot_train_lines(random_plan, test_state.stations)
-    # plt.show()
     
     #-- Greedy planning --#
     planner = greedy.Greedy(test_state, max_lines, max_time)
@@ -44,10 +40,8 @@ if __name__ == "__main__":
     K = test_state.score(greedy_plan)
     # random_scores.append(K)
     # graphs.graph(random_scores)
-        
     print(K)
     plot_train_lines(greedy_plan, test_state.stations)
-    plt.show()
     
     #-- Save plan in CSV --#
     # with open('data/output.csv', 'w', newline = '') as file:

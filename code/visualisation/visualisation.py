@@ -59,3 +59,4 @@ def plot_train_lines(train_plan, stations):
 
             # if start_x and start_y and end_x and end_y:
             plt.plot([start_x, end_x], [start_y, end_y], color=line_color)
+    plt.show()
