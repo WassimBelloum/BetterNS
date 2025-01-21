@@ -58,7 +58,7 @@ if __name__ == "__main__":
     #-- breadth first planning --#
     bfs = BreadthFirst(test_state, max_time) # initialise the planner
     breadth_first_plan = bfs.breadth_first() # get the plan
-    # K = test_state.score(breadth_first_plan)
-    # print(K)
-    # plot_train_lines(breadth_first_plan, test_state.stations)
-    # plt.show()
+    K = test_state.score(breadth_first_plan)
+    print(K)
+    plot_train_lines(breadth_first_plan, test_state.stations)
+    plt.show()
