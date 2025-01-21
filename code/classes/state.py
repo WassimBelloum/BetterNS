@@ -68,6 +68,17 @@ class State():
                 stations.append(Station(name, y, x, station_connections))
         return stations
         
+    def set_current_station(self, current_station, current_connection):
+        if current_station.name == current_connection.station_a:
+            for station in self.stations:
+                if station.name == current_connection.station_b:
+                    current_station = station
+        elif current_station.name == current_connection.station_b:
+            for station in self.stations:
+                if station.name == current_connection.station_a:
+                    current_station = station
+        return current_station
+        
     def connections_covered(self, train_plan: list, connections: dict[int, Connection]) -> float:
         """
         This functions calculates how many of the connections in the case 

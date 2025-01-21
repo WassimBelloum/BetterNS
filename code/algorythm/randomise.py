@@ -1,15 +1,23 @@
 import random
 
-def random_lines(state, max_lines, max_time):
-    ## List where train plans are saved
-    train_plan = []
-    ## Loop for maximum amount of lines
-    for line_number in range(max_lines):
+class Random:
+    def __init__(self, state, max_lines, max_time):
+        self.state = state
+        self.max_lines = max_lines
+        self.max_time = max_time
+    
+    def random_plan(self):
+        train_plan = []
+        for _ in range(self.max_lines):
+            self.add_random_line(train_plan)
+        return train_plan
+    
+    def add_random_line(self, train_plan):
         ## Save current line and time
         current_line = []
         current_time = 0
         ## Select random starting station
-        current_station = random.choice(state.stations)
+        current_station = random.choice(self.state.stations)
         while True:
             ## Check if any connection was added
             added_any_connection = False
@@ -20,20 +28,13 @@ def random_lines(state, max_lines, max_time):
             end = current_connection.station_b
             time = current_connection.time
             ## Only add connection if it fits in the max time
-            if current_time + time <= max_time:
+            if current_time + time <= self.max_time:
                 ## Add connection to current line
                 current_line.append(current_connection)
                 ## Add time to total time
                 current_time += time
                 ## Change current station to the one randomly travelled to
-                if current_station.name == end:
-                    for station in state.stations:
-                        if station.name == start:
-                            current_station = station
-                elif current_station.name == start:
-                    for station in state.stations:
-                        if station.name == end:
-                            current_station = station
+                current_station = self.state.set_current_station(current_station, current_connection)
                 ## Set added connection to true
                 added_any_connection = True
             ## If no connection was added, add current line to train plan and start new line
@@ -41,7 +42,6 @@ def random_lines(state, max_lines, max_time):
                 if current_line:
                     train_plan.append(current_line)
                 break
-    return train_plan
     
 def random_no_duplicates(state, max_lines, max_time):
     ## List where train plans are saved
