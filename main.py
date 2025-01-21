@@ -22,8 +22,8 @@ if __name__ == "__main__":
     max_time = 180
     
     #-- Randomise planning --#
-    # random = randomise.Random(test_state, max_lines, max_time)
-    # random_train_plan = random.random_plan()
+    random = randomise.Random(test_state, max_lines, max_time)
+    random_train_plan = random.random_plan()
     # p = test_state.connections_covered(random_train_plan, test_state.connections)
     # while p != 1:
         # random_train_plan = random.random_plan()
@@ -66,11 +66,11 @@ if __name__ == "__main__":
             # best_plan = greedy_plan
     # print(best_score)
     # plot_train_lines(best_plan, test_state.stations)
-    greedy_plan = greedy.greedy_train_plan()
-    p = test_state.connections_covered(greedy_plan, test_state.connections)
-    while p != 1:
-        greedy_plan = greedy.greedy_train_plan()
-        p = test_state.connections_covered(greedy_plan, test_state.connections)
+    # greedy_plan = greedy.greedy_train_plan()
+    # p = test_state.connections_covered(greedy_plan, test_state.connections)
+    # while p != 1:
+        # greedy_plan = greedy.greedy_train_plan()
+        # p = test_state.connections_covered(greedy_plan, test_state.connections)
     
     #-- Save plan in CSV --#
     # with open('data/output.csv', 'w', newline = '') as file:
@@ -78,13 +78,13 @@ if __name__ == "__main__":
         # writer.writerows(random_plan)
 
     #-- breadth first planning --#
-    bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    breadth_first_plan = bfs.breadth_first() # get the plan
-    K = test_state.score(breadth_first_plan)
-    print(K)
-    plot_train_lines(breadth_first_plan, test_state.stations)
-    plt.show()
+    # bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    # breadth_first_plan = bfs.breadth_first() # get the plan
+    # K = test_state.score(breadth_first_plan)
+    # print(K)
+    # plot_train_lines(breadth_first_plan, test_state.stations)
+    # plt.show()
 
     #-- Hillclimber --#
-    hillclimber = hillclimber.HillClimber(test_state, greedy_plan, test_state.connections, max_lines, max_time)
-    hillclimber.run(1000, 5)
+    hillclimber = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
+    hillclimber.run(100000, 1)
