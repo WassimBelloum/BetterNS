@@ -9,46 +9,54 @@ from code.algorythm import greedy
 from code.algorythm.breadth_first import BreadthFirst
 
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
-
-    load_map() # call the function to load the map
-    add_stations(test_state.stations)
+    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
-    max_lines = 7
-    max_time = 120
+    # Load the map and add the stations
+    # load_map() 
+    # add_stations(test_state.stations)
     
-    #-- randomise planning --#
+    # Set max lines and time
+    max_lines = 20
+    max_time = 180
+    
+    #-- Randomise planning --#
     # random_scores = []
     # for _ in range(10000):
     #     random_plan = randomise.random_lines(test_state, max_lines, max_time)
     #     K = test_state.score(random_plan)
     #     random_scores.append(K)
-    
-    
     # print(K)
     # plot_train_lines(random_plan, test_state.stations)
 
-    # plt.show()
 
     #-- randomise1 planning --#
     # random_plan = randomise1.random_plan(test_state, 7, 120)
     # K = test_state.score(random_plan)
     # print(K)
     # plot_train_lines(random_plan, test_state.stations)
-    # plt.show()
     
-    # #-- Greedy planning --#
-    # planner = greedy.Greedy(test_state, max_lines, max_time)
-    # # random_scores = []
-    # # for _ in range(10000):
-    # greedy_plan = planner.greedy_train_plan()
-    # K = test_state.score(greedy_plan)
-    # # random_scores.append(K)
-    # # graphs.graph(random_scores)
-        
-    # print(K)
-    # plot_train_lines(greedy_plan, test_state.stations)
-    # plt.show()
+    #-- Greedy planning --#
+    planner = greedy.Greedy(test_state, max_lines, max_time)
+    
+    #-- graph --#
+    random_scores = []
+    for _ in range(10000):
+        greedy_plan = planner.greedy_train_plan()
+        K = test_state.score(greedy_plan)
+        random_scores.append(K)
+    graphs.graph(random_scores)
+    
+    #-- map --#
+    # best_score = 0
+    # best_plan = []
+    # for _ in range(10000):
+        # greedy_plan = planner.greedy_train_plan()
+        # K = test_state.score(greedy_plan)
+        # if K >= best_score:
+            # best_score = K
+            # best_plan = greedy_plan
+    # print(best_score)
+    # plot_train_lines(best_plan, test_state.stations)
     
     #-- Save plan in CSV --#
     # with open('data/output.csv', 'w', newline = '') as file:
