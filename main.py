@@ -15,26 +15,28 @@ if __name__ == "__main__":
     random.seed(111)
     # Load the map and add the stations
     # load_map() 
-    add_stations(test_state.stations)
+    #add_stations(test_state.stations)
     
     # Set max lines and time
     max_lines = 20
     max_time = 180
     
     #-- Randomise planning --#
-    # random = randomise.Random(test_state, max_lines, max_time)
+    random = randomise.Random(test_state, max_lines, max_time)
     # random_train_plan = random.random_plan()
     # p = test_state.connections_covered(random_train_plan, test_state.connections)
     # while p != 1:
         # random_train_plan = random.random_plan()
         # p = test_state.connections_covered(random_train_plan, test_state.connections)
     
-    # random_scores = []
-    # random_train_plan = random.random_plan()
-    # for _ in range(10000):
-        # random_train_plan = random.random_plan()
-        # K = test_state.score(random_plan)
-        # random_scores.append(K)
+    random_scores = []
+    #random_train_plan = random.random_plan()
+    # for _ in range(100000):
+    #     random_train_plan = random.random_plan()
+    #     K = test_state.score(random_train_plan)
+    #     random_scores.append(K)
+
+    #graphs.graph(random_scores)
     # print(K)
     # plot_train_lines(random_train_plan, test_state.stations)
 
@@ -48,12 +50,14 @@ if __name__ == "__main__":
     greedy = greedy.Greedy(test_state, max_lines, max_time)
     
     #-- graph --#
-    # random_scores = []
-    # for _ in range(10000):
-        # greedy_plan = greedy.greedy_train_plan()
-        # K = test_state.score(greedy_plan)
-        # random_scores.append(K)
-    # graphs.graph(random_scores)
+    greedy_scores = []
+    for _ in range(100000):
+        greedy_plan = greedy.greedy_train_plan()
+        K = test_state.score(greedy_plan)
+        greedy_scores.append(K)
+    #graphs.graph(greedy_scores)
+    # graphs.results_comparison(random_scores, "random scors", greedy_scores, "greedy scors")
+    graphs.results_comparison_1((greedy_scores,"greedy algorythm"), max_x=7000)
     
     #-- map --#
     # best_score = 0
@@ -66,11 +70,11 @@ if __name__ == "__main__":
             # best_plan = greedy_plan
     # print(best_score)
     # plot_train_lines(best_plan, test_state.stations)
-    greedy_plan = greedy.greedy_train_plan()
-    p = test_state.connections_covered(greedy_plan, test_state.connections)
-    while p != 1:
-        greedy_plan = greedy.greedy_train_plan()
-        p = test_state.connections_covered(greedy_plan, test_state.connections)
+    #greedy_plan = greedy.greedy_train_plan()
+    #p = test_state.connections_covered(greedy_plan, test_state.connections)
+    #while p != 1:
+    #    greedy_plan = greedy.greedy_train_plan()
+    #    p = test_state.connections_covered(greedy_plan, test_state.connections)
     
     #-- Save plan in CSV --#
     # with open('data/output.csv', 'w', newline = '') as file:
@@ -78,13 +82,13 @@ if __name__ == "__main__":
         # writer.writerows(random_plan)
 
     #-- breadth first planning --#
-    bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    breadth_first_plan = bfs.breadth_first() # get the plan
-    K = test_state.score(breadth_first_plan)
-    print(K)
-    plot_train_lines(breadth_first_plan, test_state.stations)
-    plt.show()
+    #bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    # breadth_first_plan = bfs.breadth_first() # get the plan
+    # K = test_state.score(breadth_first_plan)
+    # print(K)
+    # plot_train_lines(breadth_first_plan, test_state.stations)
+    # plt.show()
 
     #-- Hillclimber --#
-    hillclimber = hillclimber.HillClimber(test_state, greedy_plan, test_state.connections, max_lines, max_time)
-    hillclimber.run(1000, 5)
+    # hillclimber = hillclimber.HillClimber(test_state, greedy_plan, test_state.connections, max_lines, max_time)
+    # hillclimber.run(1000, 5)
