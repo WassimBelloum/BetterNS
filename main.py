@@ -78,12 +78,12 @@ if __name__ == "__main__":
         # writer.writerows(random_plan)
 
     #-- breadth first planning --#
-    # bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    # breadth_first_plan = bfs.breadth_first() # get the plan
-    # K = test_state.score(breadth_first_plan)
-    # print(K)
-    # plot_train_lines(breadth_first_plan, test_state.stations)
-    # plt.show()
+    bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    breadth_first_plan = bfs.breadth_first() # get the plan
+    K = test_state.score(breadth_first_plan)
+    print(K)
+    plot_train_lines(breadth_first_plan, test_state.stations)
+    plt.show()
 
     #-- Hillclimber --#
     hillclimber = hillclimber.HillClimber(test_state, greedy_plan, test_state.connections, max_lines, max_time)
