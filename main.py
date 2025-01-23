@@ -23,11 +23,7 @@ if __name__ == "__main__":
     
     #-- Randomise planning --#
     random = randomise.Random(test_state, max_lines, max_time)
-<<<<<<< HEAD
-    # random_train_plan = random.random_plan()
-=======
     random_train_plan = random.random_plan()
->>>>>>> 0fbc0f8ae0d5cc675f6744930f0ecc23175a8919
     # p = test_state.connections_covered(random_train_plan, test_state.connections)
     # while p != 1:
         # random_train_plan = random.random_plan()
@@ -74,19 +70,11 @@ if __name__ == "__main__":
             # best_plan = greedy_plan
     # print(best_score)
     # plot_train_lines(best_plan, test_state.stations)
-<<<<<<< HEAD
-    #greedy_plan = greedy.greedy_train_plan()
-    #p = test_state.connections_covered(greedy_plan, test_state.connections)
-    #while p != 1:
-    #    greedy_plan = greedy.greedy_train_plan()
-    #    p = test_state.connections_covered(greedy_plan, test_state.connections)
-=======
     # greedy_plan = greedy.greedy_train_plan()
     # p = test_state.connections_covered(greedy_plan, test_state.connections)
     # while p != 1:
         # greedy_plan = greedy.greedy_train_plan()
         # p = test_state.connections_covered(greedy_plan, test_state.connections)
->>>>>>> 0fbc0f8ae0d5cc675f6744930f0ecc23175a8919
     
     #-- Save plan in CSV --#
     # with open('data/output.csv', 'w', newline = '') as file:
@@ -94,11 +82,7 @@ if __name__ == "__main__":
         # writer.writerows(random_plan)
 
     #-- breadth first planning --#
-<<<<<<< HEAD
-    #bfs = BreadthFirst(test_state, max_time) # initialise the planner
-=======
     # bfs = BreadthFirst(test_state, max_time) # initialise the planner
->>>>>>> 0fbc0f8ae0d5cc675f6744930f0ecc23175a8919
     # breadth_first_plan = bfs.breadth_first() # get the plan
     # K = test_state.score(breadth_first_plan)
     # print(K)
@@ -106,10 +90,5 @@ if __name__ == "__main__":
     # plt.show()
 
     #-- Hillclimber --#
-<<<<<<< HEAD
-    # hillclimber = hillclimber.HillClimber(test_state, greedy_plan, test_state.connections, max_lines, max_time)
-    # hillclimber.run(1000, 5)
-=======
     hillclimber = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
     hillclimber.run(100000, 1)
->>>>>>> 0fbc0f8ae0d5cc675f6744930f0ecc23175a8919
