@@ -44,7 +44,7 @@ class Greedy:
                     current_line.append(current_connection)
                     uncovered_connections.discard(current_connection)
                     current_time += current_connection.time
-                    current_station = self.set_current_station(current_station, current_connection)
+                    current_station = self.state.set_current_station(current_station, current_connection)
                     added_connection = True
                 
                 if not added_connection:
@@ -54,13 +54,8 @@ class Greedy:
                     
         return train_plan
         
-    def set_current_station(self, current_station, current_connection):
-        if current_station.name == current_connection.station_a:
-            for station in self.state.stations:
-                if station.name == current_connection.station_b:
-                    current_station = station
-        elif current_station.name == current_connection.station_b:
-            for station in self.state.stations:
-                if station.name == current_connection.station_a:
-                    current_station = station
-        return current_station
+        """
+        1. Weghalen aan het einde en ergens anders heen gaan
+        2. Ergens anders beginnen
+        3. Halverwege knippen en verdergaan met traject
+        """
