@@ -8,6 +8,7 @@ class BreadthFirst:
     def breadth_first(self):
         queue = []
         routes = [] # store planned route
+        visited = set()
     
         # start at a random station
         starting_station = random.choice(self.state.stations)
@@ -16,12 +17,8 @@ class BreadthFirst:
         print(f"Starting station: {starting_station.name}\n")
 
         while queue:
-            # Debugging: show current queue
-            print("current queue: \n", queue)
-
             #-- take the first state of the queue --#
             current_station, current_time, route_conn = queue.pop(0)
-            print(f"next_station: {current_station.name}, Time: {current_time}, Route: {route_conn}\n")
 
             routes.append(route_conn)
 
@@ -34,7 +31,10 @@ class BreadthFirst:
                     next_station = connection.station_b
                 else:
                     next_station = connection.station_a
-            
+
+                if connection in visited:
+                    continue
+                visited.add(connection)
 
                 #-- bfs needs to work with station objects to access the connections --#
                 # can be made faster by using a dict
@@ -53,14 +53,6 @@ class BreadthFirst:
                 if next_time <= self.max_time:
                     new_conn = route_conn + [connection]
                     queue.append((next_station_object, next_time, new_conn))
-                
-                print("\n")
-            
-            # # check if current time + the connection time is less than max_time
-            # if current_time + connection.time <= self.max_time:
-            #     queue.append((next_station, current_time + connection.time))
-        print("all routes possible:")
-        for route in routes:
-            print(route)
+                    print(f"Adding route: {new_conn} with time: {next_time}")
 
         return routes

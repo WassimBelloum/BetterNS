@@ -9,15 +9,15 @@ from code.algorythm import greedy
 from code.algorythm.breadth_first import BreadthFirst
 
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
+    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
     
     # Load the map and add the stations
     # load_map() 
     # add_stations(test_state.stations)
     
     # Set max lines and time
-    max_lines = 20
-    max_time = 180
+    max_lines = 7
+    max_time = 120
     
     #-- Randomise planning --#
     # random_scores = []
@@ -36,15 +36,15 @@ if __name__ == "__main__":
     # plot_train_lines(random_plan, test_state.stations)
     
     #-- Greedy planning --#
-    planner = greedy.Greedy(test_state, max_lines, max_time)
+    # planner = greedy.Greedy(test_state, max_lines, max_time)
     
     #-- graph --#
-    random_scores = []
-    for _ in range(10000):
-        greedy_plan = planner.greedy_train_plan()
-        K = test_state.score(greedy_plan)
-        random_scores.append(K)
-    graphs.graph(random_scores)
+    # random_scores = []
+    # for _ in range(10000):
+    #     greedy_plan = planner.greedy_train_plan()
+    #     K = test_state.score(greedy_plan)
+    #     random_scores.append(K)
+    # graphs.graph(random_scores)
     
     #-- map --#
     # best_score = 0
@@ -66,7 +66,8 @@ if __name__ == "__main__":
     #-- breadth first planning --#
     bfs = BreadthFirst(test_state, max_time) # initialise the planner
     breadth_first_plan = bfs.breadth_first() # get the plan
+    best_route = bfs.breadth_first()
     K = test_state.score(breadth_first_plan)
     print(K)
-    plot_train_lines(breadth_first_plan, test_state.stations)
-    plt.show()
+    # plot_train_lines(breadth_first_plan, test_state.stations)
+    # plt.show()
