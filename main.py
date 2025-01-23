@@ -18,8 +18,8 @@ if __name__ == "__main__":
     # add_stations(test_state.stations)
     
     # Set max lines and time
-    max_lines = 20
-    max_time = 180
+    max_lines = 7
+    max_time = 120
     
     #-- Randomise planning --#
     random = randomise.Random(test_state, max_lines, max_time)
@@ -29,12 +29,14 @@ if __name__ == "__main__":
         # random_train_plan = random.random_plan()
         # p = test_state.connections_covered(random_train_plan, test_state.connections)
     
-    # random_scores = []
-    # random_train_plan = random.random_plan()
-    # for _ in range(10000):
-        # random_train_plan = random.random_plan()
-        # K = test_state.score(random_plan)
-        # random_scores.append(K)
+    random_scores = []
+    #random_train_plan = random.random_plan()
+    # for _ in range(100000):
+    #     random_train_plan = random.random_plan()
+    #     K = test_state.score(random_train_plan)
+    #     random_scores.append(K)
+
+    #graphs.graph(random_scores)
     # print(K)
     # plot_train_lines(random_train_plan, test_state.stations)
     
@@ -52,12 +54,14 @@ if __name__ == "__main__":
     # greedy = greedy.Greedy(test_state, max_lines, max_time)
     
     #-- graph --#
-    # random_scores = []
-    # for _ in range(10000):
-        # greedy_plan = greedy.greedy_train_plan()
-        # K = test_state.score(greedy_plan)
-        # random_scores.append(K)
-    # graphs.graph(random_scores)
+    greedy_scores = []
+    for _ in range(100000):
+        greedy_plan = greedy.greedy_train_plan()
+        K = test_state.score(greedy_plan)
+        greedy_scores.append(K)
+    #graphs.graph(greedy_scores)
+    # graphs.results_comparison(random_scores, "random scors", greedy_scores, "greedy scors")
+    graphs.results_comparison_1((greedy_scores,"greedy algorythm"), max_x=7000)
     
     #-- map --#
     # best_score = 0
