@@ -42,29 +42,39 @@ class Random:
                 if current_line:
                     train_plan.append(current_line)
                 break
-    
-def random_no_duplicates(state, max_lines, max_time):
-    ## List where train plans are saved
-    train_plan = []
-    ## Loop for maximum amount of lines
-    for line_number in range(max_lines):
+        return current_line
+        
+    def random_heuristics(self, train_plan):
+        ## Save all covered connections
+        covered_connections = set()
+        for line in train_plan:
+            for connection in line:
+                covered_connections.add(connection)
         ## Save current line and time
         current_line = []
         current_time = 0
-        ## Select random starting station
-        current_station = random.choice(state.stations)
+        ## Select stations with an uncovered connection
+        open_stations = []
+        for station in self.state.stations:
+            for connection in station.connections:
+                if connection not in covered_connections:
+                    open_stations.append(station)
+        ## Choose starting station from open stations if possible
+        if open_stations:
+            current_station = random.choice(open_stations)
+        else:
+            current_station = random.choice(self.state.stations)
         while True:
             ## Check if any connection was added
             added_any_connection = False
-            unused_total_plan = []
-            unused_current_line = []
-            ## Save unused connections in a list
+            ## Find connections form current statio  that are not covered
+            valid_connections = []
             for connection in current_station.connections:
-                if connection not in current_line:
-                    unused_current_line.append(connection)
-            if unused_current_line:
-                ## Choose random connection from unused connections
-                current_connection = random.choice(unused_current_line)
+                    if not connection in covered_connections:
+                        valid_connections.append(connection)
+            ## If possible choose connection from uncovered connections
+            if valid_connections:
+                current_connection = random.choice(valid_connections)
             else:
                 current_connection = random.choice(current_station.connections)
             ## Set start, end and time from current connection
@@ -72,25 +82,18 @@ def random_no_duplicates(state, max_lines, max_time):
             end = current_connection.station_b
             time = current_connection.time
             ## Only add connection if it fits in the max time
-            if current_time + time <= max_time:
+            if current_time + time <= self.max_time:
                 ## Add connection to current line
                 current_line.append(current_connection)
                 ## Add time to total time
                 current_time += time
                 ## Change current station to the one randomly travelled to
-                if current_station.name == end:
-                    for station in state.stations:
-                        if station.name == start:
-                            current_station = station
-                elif current_station.name == start:
-                    for station in state.stations:
-                        if station.name == end:
-                            current_station = station
+                current_station = self.state.set_current_station(current_station, current_connection)
                 ## Set added connection to true
                 added_any_connection = True
             ## If no connection was added, add current line to train plan and start new line
-            if not added_any_connection:
+            if not added_any_connection or len(covered_connections) == 89:
                 if current_line:
                     train_plan.append(current_line)
                 break
-    return train_plan
+        return current_line

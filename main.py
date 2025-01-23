@@ -12,10 +12,10 @@ from code.algorythm import hillclimber
 
 if __name__ == "__main__":
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
-    random.seed(111)
+    random.seed(123)
     # Load the map and add the stations
     # load_map() 
-    add_stations(test_state.stations)
+    # add_stations(test_state.stations)
     
     # Set max lines and time
     max_lines = 20
@@ -37,6 +37,10 @@ if __name__ == "__main__":
         # random_scores.append(K)
     # print(K)
     # plot_train_lines(random_train_plan, test_state.stations)
+    
+    # with open('data/random_output.csv', 'w', newline = '') as file:
+        # writer = csv.writer(file)
+        # writer.writerows(random_train_plan)
 
     #-- randomise1 planning --#
     # random_plan = randomise1.random_plan(test_state, 7, 120)
@@ -45,7 +49,7 @@ if __name__ == "__main__":
     # plot_train_lines(random_plan, test_state.stations)
     
     #-- Greedy planning --#
-    greedy = greedy.Greedy(test_state, max_lines, max_time)
+    # greedy = greedy.Greedy(test_state, max_lines, max_time)
     
     #-- graph --#
     # random_scores = []
@@ -71,12 +75,11 @@ if __name__ == "__main__":
     # while p != 1:
         # greedy_plan = greedy.greedy_train_plan()
         # p = test_state.connections_covered(greedy_plan, test_state.connections)
-    
-    #-- Save plan in CSV --#
-    # with open('data/output.csv', 'w', newline = '') as file:
+        
+    # with open('data/greedy_output.csv', 'w', newline = '') as file:
         # writer = csv.writer(file)
-        # writer.writerows(random_plan)
-
+        # writer.writerows(greedy_plan)
+    
     #-- breadth first planning --#
     # bfs = BreadthFirst(test_state, max_time) # initialise the planner
     # breadth_first_plan = bfs.breadth_first() # get the plan
@@ -84,7 +87,16 @@ if __name__ == "__main__":
     # print(K)
     # plot_train_lines(breadth_first_plan, test_state.stations)
     # plt.show()
+    
+    # with open('data/bf_output.csv', 'w', newline = '') as file:
+        # writer = csv.writer(file)
+        # writer.writerows(breath_first_plan)
+   
+     #-- Hillclimber --#
+    hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
+    hc.run(1000000)
+    print(hc.value)
 
-    #-- Hillclimber --#
-    hillclimber = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-    hillclimber.run(100000, 1)
+    with open('data/hc_output.csv', 'w', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerows(hc.plan)

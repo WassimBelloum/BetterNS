@@ -89,7 +89,6 @@ class State():
         for line in train_plan:
             for connection in line:
                 unique_connections.add(connection)
-        
         ## Length of unique connections devided by total connections for answer
         p = (len(unique_connections))/(len(connections))
         return p
