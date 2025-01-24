@@ -8,7 +8,6 @@ class HillClimber:
         self.state = state
         self.plan = train_plan
         self.value = state.score(self.plan)
-        print(f"Initial value: {self.value}")
         self.max_lines = max_lines
         self.max_time = max_time
         self.connections = connections
@@ -53,6 +52,3 @@ class HillClimber:
             removed_lines, added_lines = self.mutate_lines(mutate_count)
             if not self.check_solution():
                 self.revert_mutation(removed_lines, added_lines)
-            else:
-                print(f"Iteration: {iteration}")
-                print(f"New best value: {self.value}")
