@@ -180,9 +180,12 @@ def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
     plt.show()
 
 
-# if __name__ == "__main__":
-#     list1= [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
-#     list2= [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
-#     name1= "greedy"
-#     name2= "random"
-#     results_comparison((list1, name1), (list2, name2), step=1000, max_x=10000)
+if __name__ == "__main__":
+    list1= [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
+    list2= [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
+    list3= [252, 450, 843, 867, 1250, 1450, 1980, 2230, 2476, 2250, 3140]
+    name1= "greedy"
+    name2= "random"
+    name3= "hillclimber"
+   
+    results_comparison_1((list1, name1), (list2, name2), (list3, name3), step=2000)
