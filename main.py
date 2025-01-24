@@ -1,6 +1,7 @@
 import csv
 import random
 import pandas as pd
+import os
 
 from code.classes import connections, stations, state
 from code.visualisation.visualisation import *
@@ -11,12 +12,35 @@ from code.algorythm import greedy
 from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
 
+def write_to_csv(x, last_id, score, alg, plan):
+    with open('data/output.csv', 'a', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerow([x + last_id + 1, score, alg, plan])
+
+def get_last_id(df):
+    if not df.empty:
+        return df['ID'].iloc[-1]
+    else:
+        return 0
+
+def create_csv_with_header():
+    with open('data/output.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['ID', 'Score', 'Algorithm', 'Endstate'])
+
+def check_and_create_csv():
+    if not os.path.exists('data/output.csv') or os.path.getsize('data/output.csv') == 0:
+        create_csv_with_header()
+        return pd.read_csv('data/output.csv')
+    else:
+        return pd.read_csv('data/output.csv')
+
 if __name__ == "__main__":
     #-- Create test state --#
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     #-- Set random seed --#
-    random.seed(200)
+    random.seed(201)
     
     #-- Load the map and add the stations --#
     # load_map() 
@@ -26,23 +50,19 @@ if __name__ == "__main__":
     max_lines = 20
     max_time = 180
     
-    #-- Load csv into dataframe and get last id --#
-    if os.path.exists('data/output.csv'):
-        df = pd.read_csv('data/output.csv')
-        last_id = get_last_id(df)
-    else:
-        last_id = 0
+    df = check_and_create_csv()
+    last_id = get_last_id(df)
     
     #-- Random --#
-    random = randomise.Random(test_state, max_lines, max_time)
+    # random = randomise.Random(test_state, max_lines, max_time)
     #--- Create single random plan ---#
-    random_train_plan = random.random_plan()
+    # random_train_plan = random.random_plan()
     
     #--- Run random plan for x iterations ---#
-    for x in range(100000):
-        random_train_plan = random.random_plan()
-        K = test_state.score(random_train_plan)
-        write_to_csv(x, last_id, K, "Random", random_train_plan)
+    # for x in range(100000):
+        # random_train_plan = random.random_plan()
+        # K = test_state.score(random_train_plan)
+        # write_to_csv(x, last_id, K, "Random", random_train_plan)
         
     #--- Create map of best plan ---#
     # TODO
@@ -76,24 +96,16 @@ if __name__ == "__main__":
     
     #-- Hillclimber --#
     # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-    #--- Create single Hillclimber plan ---#
-    # hc.run(1000000)
-    # write_to_csv(0, last_id, hc.value, "Hillclimber", hc.plan)
     
+    #--- Create single Hillclimber plan ---#
+    # hc.run(100000)
+    # write_to_csv(0, last_id, hc.value, "Hillclimber", hc.plan)
+
     #--- Create map of best plan ---#
     # TODO
     
     #-- Plot graph --#
-    
-    
-    
-def write_to_csv(x, last_id, score, alg, plan):
-    with open('data/output.csv', 'a', newline = ''): as file:
-        writer = csv.writer(file)
-        writer.writerows([x + last_id + 1, score, alg, plan])
-
-def get_last_id(df):
-    if not df.empty:
-        return df['ID'].iloc[-1]
-    else:
-        return 0
+    # random_rows = df[df['Algorithm'] == 'Random']
+    # best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
+    # best_random_plan = best_random_row['Endstate']
+    # print(best_random_plan)
