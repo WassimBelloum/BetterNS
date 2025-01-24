@@ -7,7 +7,12 @@ class BreadthFirst:
 
     def breadth_first(self):
         queue = []
-        routes = [] # store planned route
+        # routes = [] # store planned route
+        best_route = [] # store best route
+        best_time = float('inf') # store best time
+        max_stations_covered = 0
+        # visited_conn = set()
+        # visited_stations = set()
     
         # start at a random station
         starting_station = random.choice(self.state.stations)
@@ -16,14 +21,19 @@ class BreadthFirst:
         print(f"Starting station: {starting_station.name}\n")
 
         while queue:
-            # Debugging: show current queue
-            print("current queue: \n", queue)
-
             #-- take the first state of the queue --#
             current_station, current_time, route_conn = queue.pop(0)
-            print(f"next_station: {current_station.name}, Time: {current_time}, Route: {route_conn}\n")
+            
+            #-- get set of stations at station_a and station_b --#
+            station_a_set = {connection.station_a for connection in route_conn} # set of stations at station_a
+            station_b_set = {connection.station_b for connection in route_conn} # set of stations at station_b
+            unique_stations = station_a_set.union(station_b_set) # set of unique stations from station_a and station_b
 
-            routes.append(route_conn)
+            if len(unique_stations) > max_stations_covered or ((len(unique_stations) == max_stations_covered) and current_time < best_time):
+                max_stations_covered = len(unique_stations) # update max_stations_covered
+                best_time = current_time # update best_time
+                best_route = route_conn # update best_route
+            # routes.append(route_conn)
 
             #-- choose next station --#
             # loop through the connections of the current station
@@ -34,7 +44,10 @@ class BreadthFirst:
                     next_station = connection.station_b
                 else:
                     next_station = connection.station_a
-            
+
+                # if connection in visited_conn:
+                #     continue
+                # visited_conn.add(connection)
 
                 #-- bfs needs to work with station objects to access the connections --#
                 # can be made faster by using a dict
@@ -43,7 +56,6 @@ class BreadthFirst:
                     if station.name == next_station:
                         next_station_object = station
                         break
-
                 # if there is no object with the station name (should not happen)
                 if not next_station_object:
                     continue
@@ -53,14 +65,8 @@ class BreadthFirst:
                 if next_time <= self.max_time:
                     new_conn = route_conn + [connection]
                     queue.append((next_station_object, next_time, new_conn))
-                
-                print("\n")
-            
-            # # check if current time + the connection time is less than max_time
-            # if current_time + connection.time <= self.max_time:
-            #     queue.append((next_station, current_time + connection.time))
-        print("all routes possible:")
-        for route in routes:
-            print(route)
+                    # visited_station
+                    # .add(next_station_object.name)
+                    print(f"Adding route: {new_conn} with time: {next_time}")
 
-        return routes
+        return best_route
