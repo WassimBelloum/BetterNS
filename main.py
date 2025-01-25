@@ -11,8 +11,8 @@ from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
 
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
-    random.seed(123)
+    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
+    # random.seed(123)
     # Load the map and add the stations
     # load_map() 
     # add_stations(test_state.stations)
@@ -86,22 +86,27 @@ if __name__ == "__main__":
     
     #-- breadth first planning --#
     bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    breadth_first_plan = bfs.breadth_first() # get the plan
-    print("\n Best Breadth first plan:", breadth_first_plan)
-    # K = test_state.score(breadth_first_plan)
-    # print(K)
-    # plot_train_lines(breadth_first_plan, test_state.stations)
-    # plt.show()
+    best_trajectory = bfs.breadth_first() # get best plan from random station
+    print("\n Best Breadth first trajectory:", best_trajectory)
+
+    full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
+    print("\n Full Breadth first plan:", full_bfs_plan)
+
+
+    K = test_state.score(full_bfs_plan)
+    print(K)
+    plot_train_lines(full_bfs_plan, test_state.stations)
+    plt.show()
     
     # with open('data/bf_output.csv', 'w', newline = '') as file:
         # writer = csv.writer(file)
         # writer.writerows(breath_first_plan)
    
      #-- Hillclimber --#
-    hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-    hc.run(1000000)
-    print(hc.value)
+    # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
+    # hc.run(1000000)
+    # print(hc.value)
 
-    with open('data/hc_output.csv', 'w', newline = '') as file:
-        writer = csv.writer(file)
-        writer.writerows(hc.plan)
+    # with open('data/hc_output.csv', 'w', newline = '') as file:
+    #     writer = csv.writer(file)
+    #     writer.writerows(hc.plan)

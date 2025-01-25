@@ -4,8 +4,9 @@ class BreadthFirst:
     def __init__(self, state, max_time):
         self.state = state
         self.max_time = max_time
+        self.visited_stations = set()
 
-    def breadth_first(self):
+    def breadth_first(self, starting_station=None):
         queue = []
         # routes = [] # store planned route
         best_route = [] # store best route
@@ -13,9 +14,12 @@ class BreadthFirst:
         max_stations_covered = 0
         # visited_conn = set()
         # visited_stations = set()
+
+        if starting_station is None:
+            starting_station = random.choice(self.state.stations)
     
         # start at a random station
-        starting_station = random.choice(self.state.stations)
+        # starting_station = random.choice(self.state.stations)
         queue.append((starting_station, 0, [])) # add the starting station to the queue
         
         print(f"Starting station: {starting_station.name}\n")
@@ -67,6 +71,30 @@ class BreadthFirst:
                     queue.append((next_station_object, next_time, new_conn))
                     # visited_station
                     # .add(next_station_object.name)
-                    print(f"Adding route: {new_conn} with time: {next_time}")
+                    # print(f"Adding route: {new_conn} with time: {next_time}")
+        
+        for connection in best_route:
+            self.visited_stations.add(connection.station_a)
+            self.visited_stations.add(connection.station_b)
 
         return best_route
+    
+    def generate_new_plans_from_best_plan(self, max_lines):
+        new_plans = []
+
+        for i in range(max_lines):
+            # choose a random starting station from unvisited stations
+            unvisited_stations = []
+            for station in self.state.stations:
+                if station.name not in self.visited.stations:
+                    unvisited_stations.append(station)
+            if not unvisited_stations:
+                print("All stations have been visited.")
+                break
+
+            start_station = random.choice(unvisited_stations)
+            best_route = self.breadth_first(start_station)
+            if best_route:
+                new_plans.append(best_route)
+
+        return new_plans
