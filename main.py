@@ -82,23 +82,17 @@ if __name__ == "__main__":
     #--- Create map of best plan ---#
     # TODO
     
-    #-- breadth first planning --#
+    #-- Breadth First --#
     bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    #--- Create single Breadth First plan ---#
     best_trajectory = bfs.breadth_first() # get best plan from random station
     print("\n Best Breadth first trajectory:", best_trajectory)
 
     full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
     print("\n Full Breadth first plan:", full_bfs_plan)
-
-
+    #--- calculate score of best plan ---#
     K = test_state.score(full_bfs_plan)
     print(K)
-    plot_train_lines(full_bfs_plan, test_state.stations)
-    plt.show()
-    #-- Breadth First --#
-    # bfs = BreadthFirst(test_state, max_time)
-    #--- Create single Breadth First plan ---#
-    # breadth_first_plan = bfs.breadth_first()
     
     #--- Save single plan in .csv ---#
     # with open('data/bf_plan.csv', 'w', newline = '') as file:
