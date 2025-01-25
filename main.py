@@ -1,8 +1,11 @@
 import csv
 import random
+import pandas as pd
+import os
 
 from code.classes import connections, stations, state
 from code.visualisation.visualisation import *
+from code.visualisation.visualisation_test import *
 from code.visualisation import graphs
 from code.algorythm import randomise
 from code.algorythm import randomise1
@@ -10,79 +13,74 @@ from code.algorythm import greedy
 from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
 
+def write_to_csv(x, last_id, score, alg, plan):
+    with open('data/output.csv', 'a', newline = '') as file:
+        writer = csv.writer(file)
+        writer.writerow([x + last_id + 1, score, alg, plan])
+
+def get_last_id(df):
+    if not df.empty:
+        return df['ID'].iloc[-1]
+    else:
+        return 0
+
+def create_csv_with_header():
+    with open('data/output.csv', 'w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(['ID', 'Score', 'Algorithm', 'Endstate'])
+
+def check_and_create_csv():
+    if not os.path.exists('data/output.csv') or os.path.getsize('data/output.csv') == 0:
+        create_csv_with_header()
+        return pd.read_csv('data/output.csv')
+    else:
+        return pd.read_csv('data/output.csv')
+
 if __name__ == "__main__":
-    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
-    # random.seed(123)
-    # Load the map and add the stations
+    #-- Create test state --#
+    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
+    
+    #-- Set random seed --#
+    random.seed(201)
+    
+    #-- Load the map and add the stations --#
     # load_map() 
     # add_stations(test_state.stations)
     
-    # Set max lines and time
-    max_lines = 7
-    max_time = 120
+    #-- Set max lines and time --#
+    max_lines = 20
+    max_time = 180
     
-    #-- Randomise planning --#
+    df = check_and_create_csv()
+    last_id = get_last_id(df)
+    
+    #-- Random --#
     # random = randomise.Random(test_state, max_lines, max_time)
+    #--- Create single random plan ---#
     # random_train_plan = random.random_plan()
-    # p = test_state.connections_covered(random_train_plan, test_state.connections)
-    # while p != 1:
+    
+    #--- Run random plan for x iterations ---#
+    # for x in range(100000):
         # random_train_plan = random.random_plan()
-        # p = test_state.connections_covered(random_train_plan, test_state.connections)
+        # K = test_state.score(random_train_plan)
+        # write_to_csv(x, last_id, K, "Random", random_train_plan)
+        
+    #--- Create map of best plan ---#
+    # TODO
     
-    # random_scores = []
-    #random_train_plan = random.random_plan()
-    # for _ in range(100000):
-    #     random_train_plan = random.random_plan()
-    #     K = test_state.score(random_train_plan)
-    #     random_scores.append(K)
-
-    #graphs.graph(random_scores)
-    # print(K)
-    # plot_train_lines(random_train_plan, test_state.stations)
-    
-    # with open('data/random_output.csv', 'w', newline = '') as file:
-        # writer = csv.writer(file)
-        # writer.writerows(random_train_plan)
-
-    #-- randomise1 planning --#
-    # random_plan = randomise1.random_plan(test_state, 7, 120)
-    # K = test_state.score(random_plan)
-    # print(K)
-    # plot_train_lines(random_plan, test_state.stations)
-    
-    #-- Greedy planning --#
+    #-- Greedy --#
     # greedy = greedy.Greedy(test_state, max_lines, max_time)
+    #--- Create single greedy plan ---#
+    # greedy_plan = greedy.greedy_train_plan()
     
-    #-- graph --#
-    # greedy_scores = []
-    # for _ in range(100000):
-    #     greedy_plan = greedy.greedy_train_plan()
-    #     K = test_state.score(greedy_plan)
-    #     greedy_scores.append(K)
-    #graphs.graph(greedy_scores)
-    # graphs.results_comparison(random_scores, "random scors", greedy_scores, "greedy scors")
-    # graphs.results_comparison_1((greedy_scores,"greedy algorythm"), max_x=7000)
-    
-    #-- map --#
-    # best_score = 0
-    # best_plan = []
-    # for _ in range(10000):
+    #--- Run greedy plan for x iterations ---#
+    # for x in range(100000):
         # greedy_plan = greedy.greedy_train_plan()
         # K = test_state.score(greedy_plan)
-        # if K >= best_score:
-            # best_score = K
-            # best_plan = greedy_plan
-    # print(best_score)
-    # plot_train_lines(best_plan, test_state.stations)
-    # greedy_plan = greedy.greedy_train_plan()
-    # p = test_state.connections_covered(greedy_plan, test_state.connections)
-    # while p != 1:
-        # greedy_plan = greedy.greedy_train_plan()
-        # p = test_state.connections_covered(greedy_plan, test_state.connections)
+        # write_to_csv(x, last_id, K, "Greedy", greedy_plan)
         
-    # with open('data/greedy_output.csv', 'w', newline = '') as file:
-        # writer = csv.writer(file)
-        # writer.writerows(greedy_plan)
+    #--- Create map of best plan ---#
+    # TODO
     
     #-- breadth first planning --#
     bfs = BreadthFirst(test_state, max_time) # initialise the planner
@@ -97,16 +95,31 @@ if __name__ == "__main__":
     print(K)
     plot_train_lines(full_bfs_plan, test_state.stations)
     plt.show()
+    #-- Breadth First --#
+    # bfs = BreadthFirst(test_state, max_time)
+    #--- Create single Breadth First plan ---#
+    # breadth_first_plan = bfs.breadth_first()
     
-    # with open('data/bf_output.csv', 'w', newline = '') as file:
+    #--- Save single plan in .csv ---#
+    # with open('data/bf_plan.csv', 'w', newline = '') as file:
         # writer = csv.writer(file)
         # writer.writerows(breath_first_plan)
-   
-     #-- Hillclimber --#
+    
+    #--- Create map of best plan ---#
+    # TODO
+    
+    #-- Hillclimber --#
     # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-    # hc.run(1000000)
-    # print(hc.value)
+    
+    #--- Create single Hillclimber plan ---#
+    # hc.run(100000)
+    # write_to_csv(0, last_id, hc.value, "Hillclimber", hc.plan)
 
-    # with open('data/hc_output.csv', 'w', newline = '') as file:
-    #     writer = csv.writer(file)
-    #     writer.writerows(hc.plan)
+    #--- Create map of best plan ---#
+    # TODO
+    
+    #-- Plot graph --#
+    # random_rows = df[df['Algorithm'] == 'Random']
+    # best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
+    # best_random_plan = best_random_row['Endstate']
+    # print(best_random_plan)

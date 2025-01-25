@@ -1,62 +1,65 @@
-import matplotlib
-matplotlib.use("Tkagg")
-import matplotlib.pyplot as plt
-import numpy as np
-import matplotlib.image as mpimg
-import matplotlib.colors as mcolors
+import folium
+import random
 
-def load_map():
+def random_color():
+    """Genereer een willekeurige hex-kleur."""
+    return "#{:06x}".format(random.randint(0, 0xFFFFFF))
+
+def map_stations(stations, train_plan):
     """
-    Load the map of the Netherlands
+    Maakt een Folium-kaart met markers voor stations en tekent verbindingen
+    (trajecten) tussen stations in willekeurige kleuren.
     """
-    img = mpimg.imread('data/nederland.jpg')
-    extent = [3.2, 7.5, 50.6, 53.8]
+    # Centraal op Nederland
+    m = folium.Map(location=[52.0, 5.3], zoom_start=8)
 
-    plt.figure(figsize=(10, 10))
-    plt.imshow(img, extent=extent)
+    # Voeg station-markers toe
+    for station in stations:
+        name = station.name
+        x = station.x
+        y = station.y
 
-def add_stations(stations):
-    """
-    Add the stations to the map
-    """
-    for object in stations:
-        name = object.name
-        y = object.y
-        x = object.x
+        folium.CircleMarker(
+            location=[y, x],
+            radius=4,
+            color="yellow",
+            fill=True,
+            fill_color="blue",
+            fill_opacity=0.9,
+            tooltip=f"Station: {name}",
+            popup=name
+        ).add_to(m)
 
-        plt.scatter(x, y, s = 15, color = "black")
-        if (len(object.connections) < 3 and name != "Heemstede-Aerdenhout") or len(object.connections) > 4:
-            if name == "Ede-Wageningen":
-                name = "Ede-Wag"
-            plt.text(x, y, name, fontsize = 8)
+    # Teken de trajecten
+    for traject in train_plan:
+        line_color = random_color()
+        
+        for connection in traject:
+            station_a = connection.station_a
+            station_b = connection.station_b
+            
+            station_a_x = station_a_y = None
+            station_b_x = station_b_y = None
 
-def plot_train_lines(train_plan, stations):
-    """
-    Plot the train lines on the map
-    """
-    # get the colors of the train lines from TABLEAU_COLORS
-    colors = list(mcolors.TABLEAU_COLORS.values())
-
-    # iterate over the train plan
-    for i, line in enumerate(train_plan):
-        line_color = colors[i % len(colors)] # give a color to the current line
-
-        # iterate over the connections in the line
-        for connection in line:
-            # get the start and end station of the connection
-            start_station = connection.station_a
-            end_station = connection.station_b
-            time = connection.time
-
-            # get the coordinates of the start and end station
+            # Zoek de coördinaten van station A en B
             for station in stations:
-                if station.name == start_station:
-                    start_x = station.x
-                    start_y = station.y
-                if station.name == end_station:
-                    end_x = station.x
-                    end_y = station.y
+                if station_a == station.name:
+                    station_a_x = station.x
+                    station_a_y = station.y
+                if station_b == station.name:
+                    station_b_x = station.x
+                    station_b_y = station.y
 
-            # if start_x and start_y and end_x and end_y:
-            plt.plot([start_x, end_x], [start_y, end_y], color = line_color)
-    plt.show()
+            # Teken alleen de lijn als beide stations gevonden zijn
+            if station_a_x is not None and station_b_x is not None:
+                folium.PolyLine(
+                    locations=[[station_a_y, station_a_x],
+                               [station_b_y, station_b_x]],
+                    color=line_color,
+                    weight=3,
+                    opacity=0.6,
+                    tooltip=f"connectie: {station_a}, {station_b}"
+                ).add_to(m)
+
+    # Sla de kaart op
+    m.save('kaart_nederland.html')
