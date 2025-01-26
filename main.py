@@ -5,7 +5,6 @@ import os
 
 from code.classes import connections, stations, state
 from code.visualisation.visualisation import *
-from code.visualisation.visualisation_test import *
 from code.visualisation import graphs
 from code.algorythm import randomise
 from code.algorythm import randomise1
@@ -38,21 +37,21 @@ def check_and_create_csv():
 
 if __name__ == "__main__":
     #-- Create test state --#
-    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
+    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
     
     #-- Set random seed --#
-    random.seed(201)
+    # random.seed(201)
     
     #-- Load the map and add the stations --#
     # load_map() 
     # add_stations(test_state.stations)
     
     #-- Set max lines and time --#
-    max_lines = 20
-    max_time = 180
+    max_lines = 7
+    max_time = 120
     
-    df = check_and_create_csv()
-    last_id = get_last_id(df)
+    # df = check_and_create_csv()
+    # last_id = get_last_id(df)
     
     #-- Random --#
     # random = randomise.Random(test_state, max_lines, max_time)

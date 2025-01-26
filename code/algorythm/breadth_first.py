@@ -5,6 +5,7 @@ class BreadthFirst:
         self.state = state
         self.max_time = max_time
         self.visited_stations = set()
+        self.station_objects = {station.name: station for station in self.state.stations}
 
     def breadth_first(self, starting_station=None):
         queue = []
@@ -12,14 +13,11 @@ class BreadthFirst:
         best_route = [] # store best route
         best_time = float('inf') # store best time
         max_stations_covered = 0
-        # visited_conn = set()
-        # visited_stations = set()
 
+        # if no starting station is given, choose a random station
         if starting_station is None:
             starting_station = random.choice(self.state.stations)
-    
-        # start at a random station
-        # starting_station = random.choice(self.state.stations)
+
         queue.append((starting_station, 0, [])) # add the starting station to the queue
         
         print(f"Starting station: {starting_station.name}\n")
@@ -49,17 +47,9 @@ class BreadthFirst:
                 else:
                     next_station = connection.station_a
 
-                # if connection in visited_conn:
-                #     continue
-                # visited_conn.add(connection)
-
-                #-- bfs needs to work with station objects to access the connections --#
-                # can be made faster by using a dict
-                next_station_object = None
-                for station in self.state.stations:
-                    if station.name == next_station:
-                        next_station_object = station
-                        break
+                #-- get the object of the next station --#
+                # bfs needs to work with station objects to access the connections
+                next_station_object = self.station_objects.get(next_station)
                 # if there is no object with the station name (should not happen)
                 if not next_station_object:
                     continue
@@ -69,8 +59,6 @@ class BreadthFirst:
                 if next_time <= self.max_time:
                     new_conn = route_conn + [connection]
                     queue.append((next_station_object, next_time, new_conn))
-                    # visited_station
-                    # .add(next_station_object.name)
                     # print(f"Adding route: {new_conn} with time: {next_time}")
         
         for connection in best_route:
@@ -82,11 +70,11 @@ class BreadthFirst:
     def generate_new_plans_from_best_plan(self, max_lines):
         new_plans = []
 
-        for i in range(max_lines):
+        for _ in range(max_lines):
             # choose a random starting station from unvisited stations
             unvisited_stations = []
             for station in self.state.stations:
-                if station.name not in self.visited.stations:
+                if station.name not in self.visited_stations:
                     unvisited_stations.append(station)
             if not unvisited_stations:
                 print("All stations have been visited.")
