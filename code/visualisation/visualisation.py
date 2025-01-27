@@ -35,8 +35,8 @@ def map_stations(stations, train_plan):
         line_color = random_color()
         
         for connection in traject:
-            station_a = connection.station_a
-            station_b = connection.station_b
+            station_a = connection[0]
+            station_b = connection[1]
             
             station_a_x = station_a_y = None
             station_b_x = station_b_y = None

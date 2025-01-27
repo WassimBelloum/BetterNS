@@ -4,10 +4,12 @@ import pandas as pd
 import os
 import subprocess
 import time
+import ast
+import re
 
 from code.classes import connections, stations, state
 
-# from code.visualisation.visualisation import *
+from code.visualisation import visualisation
 from code.visualisation import graphs
 
 from code.algorythm import randomise
@@ -17,6 +19,28 @@ from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
 
 from data import save_load_data as sld
+
+# Plot graphs
+def load_endstate(df, algorythm, test_state):
+    random_rows = df[df['Algorithm'] == algorythm]
+    best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
+    best_random_plan_string = best_random_row['Endstate']
+    quoted_plan_string = re.sub(
+        r'\b([A-Za-z\-\s\/]+)\b',
+        r'"\1"',
+        best_random_plan_string
+    )
+    best_plan = ast.literal_eval(quoted_plan_string)
+    for line in best_plan:
+        for connection1 in line:
+            start, end, time1 = connection1
+            for key, value in test_state.connections.items():
+                station_a = value.station_a
+                station_b = value.station_b
+                if start == station_a and end == station_b:
+                    connection1 = value
+    return best_plan
+# best_plan = load_endstate(df, "Greedy", test_state)
 
 if __name__ == "__main__":
     # Create test state
@@ -78,19 +102,20 @@ if __name__ == "__main__":
     # print(K)
 
     #--- Run Breadth First plan for x iterations ---#
-    n_runs = 0
-    for x in range(100000):
-        bfs = BreadthFirst(test_state, max_time)
-        best_trajectory = bfs.breadth_first()
-        # print("\n Best Breadth first trajectory:", best_trajectory)
-        full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
-        # print("\n Full Breadth first plan:", full_bfs_plan)
-        K = test_state.score(full_bfs_plan)
-        n_runs += 1
-        print(f"Run {n_runs}: {K}\n")
+    # n_runs = 0
+    # for x in range(100000):
+    #     bfs = BreadthFirst(test_state, max_time)
+    #     best_trajectory = bfs.breadth_first()
+    #     # print("\n Best Breadth first trajectory:", best_trajectory)
+    #     full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
+    #     # print("\n Full Breadth first plan:", full_bfs_plan)
+    #     K = test_state.score(full_bfs_plan)
+    #     n_runs += 1
+    #     print(f"Run {n_runs}: {K}\n")
     
     # Map of best breadth first plan
-    # TODO
+    beste_plan = load_endstate(df, "Random", test_state)
+    visualisation.map_stations(test_state.stations, beste_plan)
     
     # -------------------- Hill Climber --------------------
     # random_train_plan = random.random_plan()
@@ -109,25 +134,4 @@ if __name__ == "__main__":
     # Map of best hill climber plan
     # TODO
     
-    # Plot graphs
-    def load_endstate(df, algorythm, test_state):
-        random_rows = df[df['Algorithm'] == algorythm]
-        best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
-        best_random_plan_string = best_random_row['Endstate']
-        quoted_plan_string = re.sub(
-            r'\b([A-Za-z\-\s\/]+)\b',
-            r'"\1"',
-            best_random_plan_string
-        )
-        best_plan = ast.literal_eval(quoted_plan_string)
-        for line in best_plan:
-            for connection1 in line:
-                start, end, time1 = connection1
-                for key, value in test_state.connections.items():
-                    station_a = value.station_a
-                    station_b = value.station_b
-                    if start == station_a and end == station_b:
-                        connection1 = value
-                        break
-        return best_plan
-    # best_plan = load_endstate(df, "Greedy", test_state)
+    
