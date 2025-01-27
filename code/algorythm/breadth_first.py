@@ -86,3 +86,9 @@ class BreadthFirst:
                 new_plans.append(best_route)
 
         return new_plans
+    
+    def reset_class(self):
+        self.state = None
+        self.max_time = None
+        self.visited_stations = None
+        self.station_objects = None
