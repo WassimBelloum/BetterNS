@@ -2,6 +2,8 @@ import csv
 import random
 import pandas as pd
 import os
+import subprocess
+import time
 
 from code.classes import connections, stations, state
 from code.visualisation.visualisation import *
@@ -37,7 +39,7 @@ def check_and_create_csv():
 
 if __name__ == "__main__":
     #-- Create test state --#
-    test_state = state.State("data/ConnectiesHolland.csv", "data/StationsHolland.csv")
+    test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     #-- Set random seed --#
     # random.seed(201)
@@ -47,8 +49,8 @@ if __name__ == "__main__":
     # add_stations(test_state.stations)
     
     #-- Set max lines and time --#
-    max_lines = 7
-    max_time = 120
+    max_lines = 20
+    max_time = 180
     
     # df = check_and_create_csv()
     # last_id = get_last_id(df)
@@ -82,16 +84,28 @@ if __name__ == "__main__":
     # TODO
     
     #-- Breadth First --#
-    bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    # bfs = BreadthFirst(test_state, max_time) # initialise the planner
     #--- Create single Breadth First plan ---#
-    best_trajectory = bfs.breadth_first() # get best plan from random station
-    print("\n Best Breadth first trajectory:", best_trajectory)
+    # best_trajectory = bfs.breadth_first() # get best plan from random station
+    # print("\n Best Breadth first trajectory:", best_trajectory)
 
-    full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
-    print("\n Full Breadth first plan:", full_bfs_plan)
-    #--- calculate score of best plan ---#
-    K = test_state.score(full_bfs_plan)
-    print(K)
+    # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
+    # print("\n Full Breadth first plan:", full_bfs_plan)
+    # #--- calculate score of best plan ---#
+    # K = test_state.score(full_bfs_plan)
+    # print(K)
+
+    #--- Run Breadth First plan for x iterations ---#
+    n_runs = 0
+    for x in range(100000):
+        bfs = BreadthFirst(test_state, max_time)
+        best_trajectory = bfs.breadth_first()
+        # print("\n Best Breadth first trajectory:", best_trajectory)
+        full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
+        # print("\n Full Breadth first plan:", full_bfs_plan)
+        K = test_state.score(full_bfs_plan)
+        n_runs += 1
+        print(f"Run {n_runs}: {K}\n")
     
     #--- Save single plan in .csv ---#
     # with open('data/bf_plan.csv', 'w', newline = '') as file:
