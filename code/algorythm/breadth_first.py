@@ -20,11 +20,11 @@ class BreadthFirst:
 
         queue.append((starting_station, 0, [])) # add the starting station to the queue
         
-        print(f"Starting station: {starting_station.name}\n")
+        # print(f"Starting station: {starting_station.name}\n")
 
         while queue:
             #-- take the first state of the queue --#
-            current_station, current_time, route_conn = queue.pop(0)
+            current_station, current_time, route_conn = queue.pop()
             
             #-- get set of stations at station_a and station_b --#
             station_a_set = {connection.station_a for connection in route_conn} # set of stations at station_a
@@ -56,7 +56,7 @@ class BreadthFirst:
                 
                 next_time = current_time + connection.time
 
-                if next_time <= self.max_time:
+                if next_time <= self.max_time and connection not in route_conn:
                     new_conn = route_conn + [connection]
                     queue.append((next_station_object, next_time, new_conn))
                     # print(f"Adding route: {new_conn} with time: {next_time}")
@@ -70,14 +70,14 @@ class BreadthFirst:
     def generate_new_plans_from_best_plan(self, max_lines):
         new_plans = []
 
-        for _ in range(max_lines):
+        while len(new_plans) < max_lines:
             # choose a random starting station from unvisited stations
             unvisited_stations = []
             for station in self.state.stations:
                 if station.name not in self.visited_stations:
                     unvisited_stations.append(station)
             if not unvisited_stations:
-                print("All stations have been visited.")
+                # print("All stations have been visited.")
                 break
 
             start_station = random.choice(unvisited_stations)
