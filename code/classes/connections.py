@@ -8,7 +8,7 @@ class Connection:
     - station_b (str): the name of the second station
     - time (int): the travel time between the two stations
     """
-    def __init__(self, station_a: str, station_b: str, time: int) -> None:
+    def __init__(self, station_a: str, station_b: str, time: float) -> None:
         """Each connection contains 2 stations and a travel time"""
         self.station_a = station_a
         self.station_b = station_b

@@ -9,7 +9,7 @@ import re
 
 from code.classes import connections, stations, state
 
-# from code.visualisation.visualisation import *
+from code.visualisation import visualisation
 from code.visualisation import graphs
 
 from code.algorythm import randomise
@@ -36,8 +36,8 @@ if __name__ == "__main__":
     max_time = 180
     
     # Create dataframe and get last ID
-    df = sld.check_and_create_csv()
-    last_id = sld.get_last_id(df)
+    # df = sld.check_and_create_csv()
+    # last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
     # random = randomise.Random(test_state, max_lines, max_time)
@@ -69,7 +69,6 @@ if __name__ == "__main__":
     
     # -------------------- Breadth First --------------------
     # bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    
     # Single Breadth First plan
     # best_trajectory = bfs.breadth_first() # get best plan from random station
     # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
@@ -77,13 +76,13 @@ if __name__ == "__main__":
     # print(K)
     
     # Breadth First loop
-    for x in range(10):
-        bfs = BreadthFirst(test_state, max_time)
-        best_trajectory = bfs.breadth_first()
-        full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
-        K = test_state.score(full_bfs_plan)
-        sld.write_to_csv(x, last_id, K, "Breadth First", full_bfs_plan)
-        bfs.reset_class
+    # for x in range(10):
+        # bfs = BreadthFirst(test_state, max_time)
+        # best_trajectory = bfs.breadth_first()
+        # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
+        # K = test_state.score(full_bfs_plan)
+        # sld.write_to_csv(x, last_id, K, "Breadth First", full_bfs_plan)
+        # bfs.reset_class
     
     # Map of best breadth first plan
     # TODO

@@ -33,9 +33,9 @@ class State():
             reader = csv.reader(f)
             ## Assign stations and time for each delimited item in the file
             for index, row in enumerate(reader):
-                station_a = row[0]
-                station_b = row[1]
-                time = row[2]
+                station_a: str = row[0]
+                station_b: str = row[1]
+                time: float = float(row[2])
                 ## Input stations and time to Connection class to create an object
                 connections[index] = (Connection(station_a, station_b, time))
         return connections
@@ -56,9 +56,9 @@ class State():
             reader = csv.reader(f)
             ## Assign variables for each delimited item in file
             for row in reader:
-                name = row[0]
-                y = row[1]
-                x = row[2]
+                name: str = row[0]
+                y: float = float(row[1])
+                x: float = float(row[2])
                 station_connections = []
                 ## Add connection objects to the station
                 for connection in connections.values():
