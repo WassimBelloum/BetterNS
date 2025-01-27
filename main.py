@@ -58,8 +58,8 @@ if __name__ == "__main__":
     max_time = 180
     
     # Create dataframe and get last ID
-    df = sld.check_and_create_csv()
-    last_id = sld.get_last_id(df)
+    # df = sld.check_and_create_csv()
+    # last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
     # random = randomise.Random(test_state, max_lines, max_time)
@@ -89,29 +89,22 @@ if __name__ == "__main__":
     # Map of best greedy plan
     # TODO
     
-    #-- Breadth First --#
+    # -------------------- Breadth First --------------------
     # bfs = BreadthFirst(test_state, max_time) # initialise the planner
-    #--- Create single Breadth First plan ---#
+    # Single Breadth First plan
     # best_trajectory = bfs.breadth_first() # get best plan from random station
-    # print("\n Best Breadth first trajectory:", best_trajectory)
-
     # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
-    # print("\n Full Breadth first plan:", full_bfs_plan)
-    # #--- calculate score of best plan ---#
     # K = test_state.score(full_bfs_plan)
     # print(K)
-
-    #--- Run Breadth First plan for x iterations ---#
-    # n_runs = 0
-    # for x in range(100000):
-    #     bfs = BreadthFirst(test_state, max_time)
-    #     best_trajectory = bfs.breadth_first()
-    #     # print("\n Best Breadth first trajectory:", best_trajectory)
-    #     full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
-    #     # print("\n Full Breadth first plan:", full_bfs_plan)
-    #     K = test_state.score(full_bfs_plan)
-    #     n_runs += 1
-    #     print(f"Run {n_runs}: {K}\n")
+    
+    # Breadth First loop
+    # for x in range(10):
+        # bfs = BreadthFirst(test_state, max_time)
+        # best_trajectory = bfs.breadth_first()
+        # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
+        # K = test_state.score(full_bfs_plan)
+        # sld.write_to_csv(x, last_id, K, "Breadth First", full_bfs_plan)
+        # bfs.reset_class
     
     # Map of best breadth first plan
     beste_plan = load_endstate(df, "Random", test_state)

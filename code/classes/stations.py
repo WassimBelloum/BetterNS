@@ -11,7 +11,7 @@ class Station():
     - x(float): the x-coordinate of the station
     - connections(dict): a dictionary containing connection objects
     """
-    def __init__(self, name: str, y: float, x: float, connections: dict[int, Connection]) -> None:
+    def __init__(self, name: str, y: float, x: float, connections: list[Connection]) -> None:
         """Create object with a name, coordinates and a dictionary containing connection objects"""
         self.name = name
         self.y = float(y)
