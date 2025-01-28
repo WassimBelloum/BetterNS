@@ -25,7 +25,7 @@ if __name__ == "__main__":
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     # Set random seed
-    random.seed(202)
+    random.seed(204)
     
     # Load the map and add the stations
     # load_map() 
@@ -36,8 +36,8 @@ if __name__ == "__main__":
     max_time = 180
     
     # Create dataframe and get last ID
-    # df = sld.check_and_create_csv()
-    # last_id = sld.get_last_id(df)
+    df = sld.check_and_create_csv()
+    last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
     # random = randomise.Random(test_state, max_lines, max_time)
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     # print(K)
     
     # Breadth First loop
-    # for x in range(10):
+    # for x in range(1000):
         # bfs = BreadthFirst(test_state, max_time)
         # best_trajectory = bfs.breadth_first()
         # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     # hc.run(100000)
     
     # Hill Climber loop
-    # for x in range(100):
+    # for x in range(1000):
         # random_train_plan = random.random_plan()
         # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
         # hc.run(100000)
