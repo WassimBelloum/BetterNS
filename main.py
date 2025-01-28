@@ -6,6 +6,7 @@ import subprocess
 import time
 import ast
 import re
+import argparse
 
 from code.classes import connections, stations, state
 
@@ -18,6 +19,17 @@ from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
 
 from data import save_load_data as sld
+
+def breadth_first(iterations):
+    print("Running Breadth First algorithm")
+    for x in range(iterations):
+        bfs = BreadthFirst(test_state, max_time)
+        best_trajectory = bfs.breadth_first()
+        full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines)
+        K = test_state.score(full_bfs_plan)
+        # sld.write_to_csv(x, last_id, K, "Breadth First", full_bfs_plan)
+        print(K)
+        bfs.reset_class
 
 
 if __name__ == "__main__":
@@ -105,20 +117,20 @@ if __name__ == "__main__":
     # -------------------- Hill Climber --------------------
     
     # Single Hill Climber plan
-    random = randomise.Random(test_state, max_lines, max_time)
+    # random = randomise.Random(test_state, max_lines, max_time)
     # random_train_plan = random.random_plan()
     # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
     # hc.run(100000)
     # print(hc.value)
     
     # An list to register every score with the right run number 
-    hill_climber_score_run = []
+    # hill_climber_score_run = []
     # Hill Climber loop
-    for x in range(10):
-        random_train_plan = random.random_plan()
-        hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-        hc.run(1000)
-        hill_climber_score_run.append((x, hc.value))
+    # for x in range(10):
+    #     random_train_plan = random.random_plan()
+    #     hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
+    #     hc.run(1000)
+    #     hill_climber_score_run.append((x, hc.value))
         # sld.write_to_csv(x, last_id, hc.value, "Hillclimber", hc.plan)
         # hc.reset_class
     
@@ -130,8 +142,8 @@ if __name__ == "__main__":
     # random_rows = df[df['Algorithm'] == "Random"]
     # random_scores = random_rows['Score'].tolist()
     # # graphs.results_comparison((random_scores, "Random"))
-    print(hill_climber_score_run)
-    graphs.curve_diagram(hill_climber_score_run)
+    # print(hill_climber_score_run)
+    # graphs.curve_diagram(hill_climber_score_run)
     
     # greedy_rows = df[df['Algorithm'] == "Greedy"]
     # greedy_scores = greedy_rows['Score'].tolist()
@@ -146,3 +158,36 @@ if __name__ == "__main__":
     # # graphs.results_comparison((hc_scores, "Hillclimber"))
     
     # graphs.results_comparison((random_scores, "Random"), (greedy_scores, "Greedy"), (bfs_scores, "Breadth First"), (hc_scores, "Hillclimber"))
+
+    # -------------------- usage argparse --------------------
+    # initialize parser
+    parser = argparse.ArgumentParser()
+
+    # add arguments
+    # argument for algorithms
+    parser.add_argument(
+        "algorithm",
+        help="Choose an algorithm to run",
+        type=str,
+        choices=["random", "greedy", "bfs", "hc"],
+    )
+
+    # argument for iterations
+    parser.add_argument(
+        "--iterations",
+        help="Specify the number of iterations",
+        type=int,
+        default=1,
+    )
+
+    # read arguments from the command line
+    args = parser.parse_args()
+
+    if args.algorithm == "random":
+        pass
+    elif args.algorithm == "greedy":
+        pass
+    elif args.algorithm == "hc":
+        pass
+    elif args.algorithm == "bfs":
+        breadth_first(args.iterations)
