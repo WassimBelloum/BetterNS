@@ -28,16 +28,12 @@ if __name__ == "__main__":
     # Set random seed
     # random.seed(204)
     
-    # Load the map and add the stations
-    # load_map() 
-    # add_stations(test_state.stations)
-    
     # Set max lines and time
     # max_lines = 20
     # max_time = 180
     
     # Create dataframe and get last ID
-    df = sld.check_and_create_csv()
+    # df = sld.check_and_create_csv()
     # last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
@@ -116,5 +112,24 @@ if __name__ == "__main__":
         # hc.reset_class
     
     # Map of best hill climber plan
-    best_plan = visualisation.load_endstate(df, "Hillclimber", test_state)
-    visualisation.map_stations(test_state.stations, best_plan)
+    # best_plan = visualisation.load_endstate(df, "Hillclimber", test_state)
+    # visualisation.map_stations(test_state.stations, best_plan)
+    
+    # -------------------- Graph --------------------
+    # random_rows = df[df['Algorithm'] == "Random"]
+    # random_scores = random_rows['Score'].tolist()
+    # graphs.results_comparison((random_scores, "Random"))
+    
+    # greedy_rows = df[df['Algorithm'] == "Greedy"]
+    # greedy_scores = greedy_rows['Score'].tolist()
+    # graphs.results_comparison((greedy_scores, "Greedy"))
+    
+    # bfs_rows = df[df['Algorithm'] == "Breadth First"]
+    # bfs_scores = bfs_rows['Score'].tolist()
+    # graphs.results_comparison((bfs_scores, "Breadth First"))
+    
+    # hc_rows = df[df['Algorithm'] == "Hillclimber"]
+    # hc_scores = hc_rows['Score'].tolist()
+    # graphs.results_comparison((hc_scores, "Hillclimber"))
+    
+    # graphs.results_comparison((random_scores, "Random"), (greedy_scores, "Greedy"), (bfs_scores, "Breadth First"), (hc_scores, "Hillclimber"))
