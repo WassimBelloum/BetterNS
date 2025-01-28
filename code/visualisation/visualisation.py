@@ -35,8 +35,8 @@ def map_stations(stations, train_plan):
         line_color = random_color()
         
         for connection in traject:
-            station_a = connection.station_a
-            station_b = connection.station_b
+            station_a = connection[0]
+            station_b = connection[1]
             
             station_a_x = station_a_y = None
             station_b_x = station_b_y = None
@@ -63,3 +63,25 @@ def map_stations(stations, train_plan):
 
     # Sla de kaart op
     m.save('kaart_nederland.html')
+
+# From output CSV to useble data plan for map_stations()
+def load_endstate(df, algorythm, test_state):
+    random_rows = df[df['Algorithm'] == algorythm]
+    best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
+    best_random_plan_string = best_random_row['Endstate']
+    quoted_plan_string = re.sub(
+        r'\b([A-Za-z\-\s\/]+)\b',
+        r'"\1"',
+        best_random_plan_string
+    )
+    best_plan = ast.literal_eval(quoted_plan_string)
+    for line in best_plan:
+        for connection1 in line:
+            start, end, time1 = connection1
+            for key, value in test_state.connections.items():
+                station_a = value.station_a
+                station_b = value.station_b
+                if start == station_a and end == station_b:
+                    connection1 = value
+    return best_plan
+# best_plan = load_endstate(df, "Greedy", test_state)

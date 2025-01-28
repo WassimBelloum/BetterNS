@@ -20,6 +20,7 @@ from code.algorythm import hillclimber
 
 from data import save_load_data as sld
 
+
 if __name__ == "__main__":
     # Create test state
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
@@ -85,7 +86,8 @@ if __name__ == "__main__":
         # bfs.reset_class
     
     # Map of best breadth first plan
-    # TODO
+    beste_plan = load_endstate(df, "Random", test_state)
+    visualisation.map_stations(test_state.stations, beste_plan)
     
     # -------------------- Hill Climber --------------------
     # random_train_plan = random.random_plan()
@@ -104,25 +106,4 @@ if __name__ == "__main__":
     # Map of best hill climber plan
     # TODO
     
-    # Plot graphs
-    def load_endstate(df, algorythm, test_state):
-        random_rows = df[df['Algorithm'] == algorythm]
-        best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
-        best_random_plan_string = best_random_row['Endstate']
-        quoted_plan_string = re.sub(
-            r'\b([A-Za-z\-\s\/]+)\b',
-            r'"\1"',
-            best_random_plan_string
-        )
-        best_plan = ast.literal_eval(quoted_plan_string)
-        for line in best_plan:
-            for connection1 in line:
-                start, end, time1 = connection1
-                for key, value in test_state.connections.items():
-                    station_a = value.station_a
-                    station_b = value.station_b
-                    if start == station_a and end == station_b:
-                        connection1 = value
-                        break
-        return best_plan
-    # best_plan = load_endstate(df, "Greedy", test_state)
+    
