@@ -1,112 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.ticker as ticker
 
-def graph(random_scores):
-    bins = range(0, 10001, 500)
-    
-    counts, edges, patches = plt.hist(random_scores, bins = bins, edgecolor = "black")
-    
-    for count, edge in zip(counts, edges[:-1]):
-        if count > 0:
-            plt.text(edge + 250, count + 0.5, f"{int(count)}", ha='center', fontsize=10)
-    
-    plt.xlim(0, 10000)
-    plt.ylim(0, None)
-    
-    plt.xlabel("Score (K)")
-    plt.ylabel("Count")
-    plt.title("Count for range of scores, rounded to 1000")
-    plt.show()
-
-
-
-
-
-
-
-
-
-
-def results_comparison(scores_list1: list, label_list1: str, scores_list2: list, label_list2: str):
-    """
-    vergelijkt 2 lists resultaten met elkaar in ranges met 500 als stapsgrootte
-    
-    Parameters:
-    -----------
-    scores_list1 : list
-        Lijst met scores.
-
-    label_list1 : str
-        Naam list1 (te zien in de legenda).
-
-    scores_list2 : list
-        Lijst met scores.
-
-    label_list2 : str
-        Naam list2 (te zien in de legenda).
-    """
-
-    # Stapgrootte en maximale waarde voor de x-as vast instellen
-    step = 500
-    max_x = 10000
-
-    # Stel bin-randen vast van 0 tot 10.000 in stappen van 500
-    bin_edges = np.arange(0, max_x + step, step)
-
-    # Bereken de frequenties per bin voor beide lijsten
-    freq1, _ = np.histogram(scores_list1, bins=bin_edges)
-    freq2, _ = np.histogram(scores_list2, bins=bin_edges)
-
-    # Bepaal de middens van de bins (voor het plaatsen van de staven)
-    bin_midpoints = 0.5 * (bin_edges[:-1] + bin_edges[1:])
-
-    # Staafbreedte (bijvoorbeeld 40% van de stapgrootte)
-    width = step * 0.4
-
-    # Plot de staven voor beide lijsten naast elkaar
-    plt.bar(bin_midpoints - width/2, freq1, width=width, label=label_list1, alpha=0.7)
-    plt.bar(bin_midpoints + width/2, freq2, width=width, label=label_list2, alpha=0.7)
-
-    # Labels voor de x-as (bijv. "0-500", "500-1000", ...)
-    bin_labels = [f"{int(bin_edges[i])}-{int(bin_edges[i+1])}" for i in range(len(bin_edges)-1)]
-
-    # Zet de x-as ticks op de midpoint en label ze met de intervalnaam
-    plt.xticks(bin_midpoints, bin_labels, rotation=45)
-
-    # As-labels en titel
-    plt.xlabel("Score Intervallen (stap=500, tot 10.000)")
-    plt.ylabel("Frequentie")
-    plt.title("Frequentie van scores in vaste intervallen (0 tot 10.000)")
-
-    # Legenda toevoegen
-    plt.legend()
-
-    # Beperk de x-as tot 0 - 10.000 (zodat het niet automatisch schaalt)
-    plt.xlim([0, max_x])
-
-    # Layout netter maken
-    plt.tight_layout()
-
-    # Toon de grafiek
-    plt.show()
-
-
-
-# Voorbeeld van aanroepen:
-
-# if __name__ == "__main__":
-#     list1= [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
-#     list2= [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
-#     name1= "greedy"
-#     name2= "random"
-#     results_comparison(list1, name1, list2, name2)
-
-
-
-import matplotlib.pyplot as plt
-import numpy as np
-
-def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
+def results_comparison(*score_label_pairs, step=500, max_x=10000):
     """
     Vergelijkt 1 of meer lijsten met scores (elk met een eigen label) in ranges
     met een stapgrootte van 500, en plot ze gegroepeerd in één histogram.
@@ -132,11 +28,13 @@ def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
     # Stel bin-randen vast van 0 tot max_x in stappen van 'step'
     bin_edges = np.arange(0, max_x + step, step)
     
-    # Bepaal per dataset de histogram-frequentie
+    # Bepaal per dataset de histogram-frequentie (absoluut),
+    # deel vervolgens door het totaal aantal scores, daarna * 100 voor een percentage
     freqs = []
     labels = []
     for scores, label in score_label_pairs:
         freq, _ = np.histogram(scores, bins=bin_edges)
+        freq = (freq / len(scores)) * 100  # Normaliseer naar percentage
         freqs.append(freq)
         labels.append(label)
 
@@ -159,10 +57,7 @@ def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
         plt.bar(bin_midpoints + offset, freq, width=bar_width,
                 label=labels[i], alpha=0.7)
 
-    # In plaats van "0-500" willen we één getal op de x-as, bijvoorbeeld
-    # de bovengrens van iedere bin (dat is bin_edges[1:], bin_edges[2:], etc.)
-    # De lengte van 'bin_midpoints' is hetzelfde als 'bin_edges[:-1]', dus
-    # we kunnen als label de bin_edges[1:] nemen.
+    # De labels voor de x-as: gebruik de bovengrens van de bins
     bin_labels = [str(int(edge)) for edge in bin_edges[1:]]
     
     # Zet de x-ticks op de bin_midpoints, maar label ze met de *bovengrens*
@@ -170,9 +65,13 @@ def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
 
     # As-labels en titel
     plt.xlim([0, max_x])
+    plt.ylim([0, 100])  # Y-as van 0 tot 100%
     plt.xlabel("Score (afgerond)")
-    plt.ylabel("Frequentie")
-    plt.title("Frequentie van scores")
+    plt.ylabel("Runs Percentage (%)")  # Aangepast label voor percentage
+    plt.title("Frequentie van scores (in %)")
+
+    # Formater toevegen
+    plt.gca().yaxis.set_major_formatter(ticker.FormatStrFormatter('%.0f%%'))
 
     # Legenda en layout
     plt.legend()
@@ -180,6 +79,7 @@ def results_comparison_1(*score_label_pairs, step=500, max_x=10000):
     plt.show()
 
 
+# voorbeeld van runnen:
 if __name__ == "__main__":
     list1= [100, 250, 500, 750, 1200, 1600, 2000, 2100, 2500, 2900, 3000, 3200]
     list2= [200, 450, 800, 800, 1250, 1450, 1980, 2100, 2450, 2900, 3100]
@@ -188,4 +88,4 @@ if __name__ == "__main__":
     name2= "random"
     name3= "hillclimber"
    
-    results_comparison_1((list1, name1), (list2, name2), (list3, name3), step=2000)
+    results_comparison((list1, name1), (list2, name2), (list3, name3), step=2000)
