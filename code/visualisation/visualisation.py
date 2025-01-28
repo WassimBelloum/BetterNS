@@ -47,11 +47,11 @@ def map_stations(stations, train_plan):
 
         folium.CircleMarker(
             location=[y, x],
-            radius=4,
-            color="yellow",
+            radius=3,
+            color="blue",
             fill=True,
             fill_color="blue",
-            fill_opacity=0.9,
+            fill_opacity=0.7,
             tooltip=f"Station: {name}",
             popup=name
         ).add_to(m)
