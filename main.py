@@ -13,7 +13,6 @@ from code.visualisation import visualisation
 from code.visualisation import graphs
 
 from code.algorythm import randomise
-from code.algorythm import randomise1
 from code.algorythm import greedy
 from code.algorythm.breadth_first import BreadthFirst
 from code.algorythm import hillclimber
@@ -26,14 +25,14 @@ if __name__ == "__main__":
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     # Set random seed
-    # random.seed(204)
+    random.seed(204)
     
     # Set max lines and time
-    # max_lines = 20
-    # max_time = 180
+    max_lines = 20
+    max_time = 180
     
     # Create dataframe and get last ID
-    df = sld.check_and_create_csv()
+    # df = sld.check_and_create_csv()
     # last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
@@ -44,11 +43,16 @@ if __name__ == "__main__":
     # K = test_state.score(random_train_plan)
     # print(K)
     
+    # An list to register every score with the right run number
+    # random_score_run = []
     # Random loop
     # for x in range(100000):
-        # random_train_plan = random.random_plan()
-        # K = test_state.score(random_train_plan)
+    #     random_train_plan = random.random_plan()
+    #     K = test_state.score(random_train_plan)
         # sld.write_to_csv(x, last_id, K, "Random", random_train_plan)
+
+        # Save the current run (x) en de score (K) in an tuple
+        # random_score_run.append((x, K))
     
     # Map of best random plan
     # best_plan = visualisation.load_endstate(df, "Random", test_state)
@@ -61,12 +65,16 @@ if __name__ == "__main__":
     # greedy_plan = greedy.greedy_train_plan()
     # K = test_state.score(greedy_plan)
     # print(K)
+
+    # An list to register every score with the right run number
+    # greedy_score_run = []
     
-    # Greedy loop
-    # for x in range(100000):
-        # greedy_plan = greedy.greedy_train_plan()
-        # K = test_state.score(greedy_plan)
-        # sld.write_to_csv(x, last_id, K, "Greedy", greedy_plan)
+    # # Greedy loop
+    # for x in range(1000):
+    #     greedy_plan = greedy.greedy_train_plan()
+    #     K = test_state.score(greedy_plan)
+    #     # sld.write_to_csv(x, last_id, K, "Greedy", greedy_plan)
+    #     greedy_score_run.append((x, K))
     
     # Map of best greedy plan
     # best_plan = visualisation.load_endstate(df, "Greedy", test_state)
@@ -97,17 +105,20 @@ if __name__ == "__main__":
     # -------------------- Hill Climber --------------------
     
     # Single Hill Climber plan
-    # random = randomise.Random(test_state, max_lines, max_time)
+    random = randomise.Random(test_state, max_lines, max_time)
     # random_train_plan = random.random_plan()
     # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
     # hc.run(100000)
     # print(hc.value)
     
+    # An list to register every score with the right run number 
+    hill_climber_score_run = []
     # Hill Climber loop
-    # for x in range(1000):
-        # random_train_plan = random.random_plan()
-        # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-        # hc.run(100000)
+    for x in range(10):
+        random_train_plan = random.random_plan()
+        hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
+        hc.run(1000)
+        hill_climber_score_run.append((x, hc.value))
         # sld.write_to_csv(x, last_id, hc.value, "Hillclimber", hc.plan)
         # hc.reset_class
     
@@ -116,20 +127,22 @@ if __name__ == "__main__":
     # visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Graph --------------------
-    random_rows = df[df['Algorithm'] == "Random"]
-    random_scores = random_rows['Score'].tolist()
-    # graphs.results_comparison((random_scores, "Random"))
+    # random_rows = df[df['Algorithm'] == "Random"]
+    # random_scores = random_rows['Score'].tolist()
+    # # graphs.results_comparison((random_scores, "Random"))
+    print(hill_climber_score_run)
+    graphs.curve_diagram(hill_climber_score_run)
     
-    greedy_rows = df[df['Algorithm'] == "Greedy"]
-    greedy_scores = greedy_rows['Score'].tolist()
-    # graphs.results_comparison((greedy_scores, "Greedy"))
+    # greedy_rows = df[df['Algorithm'] == "Greedy"]
+    # greedy_scores = greedy_rows['Score'].tolist()
+    # # graphs.results_comparison((greedy_scores, "Greedy"))
     
-    bfs_rows = df[df['Algorithm'] == "Breadth First"]
-    bfs_scores = bfs_rows['Score'].tolist()
-    # graphs.results_comparison((bfs_scores, "Breadth First"))
+    # bfs_rows = df[df['Algorithm'] == "Breadth First"]
+    # bfs_scores = bfs_rows['Score'].tolist()
+    # # graphs.results_comparison((bfs_scores, "Breadth First"))
     
-    hc_rows = df[df['Algorithm'] == "Hillclimber"]
-    hc_scores = hc_rows['Score'].tolist()
-    # graphs.results_comparison((hc_scores, "Hillclimber"))
+    # hc_rows = df[df['Algorithm'] == "Hillclimber"]
+    # hc_scores = hc_rows['Score'].tolist()
+    # # graphs.results_comparison((hc_scores, "Hillclimber"))
     
-    graphs.results_comparison((random_scores, "Random"), (greedy_scores, "Greedy"), (bfs_scores, "Breadth First"), (hc_scores, "Hillclimber"))
+    # graphs.results_comparison((random_scores, "Random"), (greedy_scores, "Greedy"), (bfs_scores, "Breadth First"), (hc_scores, "Hillclimber"))
