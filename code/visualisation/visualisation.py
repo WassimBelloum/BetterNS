@@ -1,5 +1,7 @@
 import folium
 import random
+import ast
+import re
 
 def random_color():
     """Genereer een willekeurige hex-kleur."""
@@ -11,7 +13,7 @@ def map_stations(stations, train_plan):
     (trajecten) tussen stations in willekeurige kleuren.
     """
     # Centraal op Nederland
-    m = folium.Map(location=[52.0, 5.3], zoom_start=8)
+    m = folium.Map(location=[52.0, 5.3], zoom_start=8, tiles="CartoDB Positron")
 
     # Voeg station-markers toe
     for station in stations:
@@ -21,11 +23,11 @@ def map_stations(stations, train_plan):
 
         folium.CircleMarker(
             location=[y, x],
-            radius=4,
-            color="yellow",
+            radius=3,
+            color="blue",
             fill=True,
             fill_color="blue",
-            fill_opacity=0.9,
+            fill_opacity=0.7,
             tooltip=f"Station: {name}",
             popup=name
         ).add_to(m)
@@ -56,13 +58,13 @@ def map_stations(stations, train_plan):
                     locations=[[station_a_y, station_a_x],
                                [station_b_y, station_b_x]],
                     color=line_color,
-                    weight=3,
-                    opacity=0.6,
+                    weight=2,
+                    opacity=0.5,
                     tooltip=f"connectie: {station_a}, {station_b}"
                 ).add_to(m)
 
     # Sla de kaart op
-    m.save('kaart_nederland.html')
+    m.save('results/kaart_nederland.html')
 
 # From output CSV to useble data plan for map_stations()
 def load_endstate(df, algorythm, test_state):
@@ -84,4 +86,3 @@ def load_endstate(df, algorythm, test_state):
                 if start == station_a and end == station_b:
                     connection1 = value
     return best_plan
-# best_plan = load_endstate(df, "Greedy", test_state)

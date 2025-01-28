@@ -26,51 +26,60 @@ if __name__ == "__main__":
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     # Set random seed
-    random.seed(204)
+    # random.seed(204)
     
     # Load the map and add the stations
     # load_map() 
     # add_stations(test_state.stations)
     
     # Set max lines and time
-    max_lines = 20
-    max_time = 180
+    # max_lines = 20
+    # max_time = 180
     
     # Create dataframe and get last ID
     df = sld.check_and_create_csv()
-    last_id = sld.get_last_id(df)
+    # last_id = sld.get_last_id(df)
     
     # -------------------- Random --------------------
     # random = randomise.Random(test_state, max_lines, max_time)
+    
     # Single Random plan
     # random_train_plan = random.random_plan()
+    # K = test_state.score(random_train_plan)
+    # print(K)
     
     # Random loop
     # for x in range(100000):
         # random_train_plan = random.random_plan()
         # K = test_state.score(random_train_plan)
         # sld.write_to_csv(x, last_id, K, "Random", random_train_plan)
-        
+    
     # Map of best random plan
-    # TODO
+    # best_plan = visualisation.load_endstate(df, "Random", test_state)
+    # visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Random Greedy --------------------
     # greedy = greedy.Greedy(test_state, max_lines, max_time)
+    
     # Single Greedy plan
     # greedy_plan = greedy.greedy_train_plan()
+    # K = test_state.score(greedy_plan)
+    # print(K)
     
     # Greedy loop
     # for x in range(100000):
         # greedy_plan = greedy.greedy_train_plan()
         # K = test_state.score(greedy_plan)
         # sld.write_to_csv(x, last_id, K, "Greedy", greedy_plan)
-        
+    
     # Map of best greedy plan
-    # TODO
+    # best_plan = visualisation.load_endstate(df, "Greedy", test_state)
+    # visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Breadth First --------------------
-    # bfs = BreadthFirst(test_state, max_time) # initialise the planner
+    
     # Single Breadth First plan
+    # bfs = BreadthFirst(test_state, max_time) # initialise the planner
     # best_trajectory = bfs.breadth_first() # get best plan from random station
     # full_bfs_plan = bfs.generate_new_plans_from_best_plan(max_lines) # generate new plans from best plan
     # K = test_state.score(full_bfs_plan)
@@ -86,14 +95,17 @@ if __name__ == "__main__":
         # bfs.reset_class
     
     # Map of best breadth first plan
-    beste_plan = load_endstate(df, "Random", test_state)
-    visualisation.map_stations(test_state.stations, beste_plan)
+    # best_plan = visualisation.load_endstate(df, "Breadth First", test_state)
+    # visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Hill Climber --------------------
+    
+    # Single Hill Climber plan
+    # random = randomise.Random(test_state, max_lines, max_time)
     # random_train_plan = random.random_plan()
     # hc = hillclimber.HillClimber(test_state, random_train_plan, test_state.connections, max_lines, max_time)
-    # Single Hill Climber plan
     # hc.run(100000)
+    # print(hc.value)
     
     # Hill Climber loop
     # for x in range(1000):
@@ -104,6 +116,5 @@ if __name__ == "__main__":
         # hc.reset_class
     
     # Map of best hill climber plan
-    # TODO
-    
-    
+    best_plan = visualisation.load_endstate(df, "Hillclimber", test_state)
+    visualisation.map_stations(test_state.stations, best_plan)
