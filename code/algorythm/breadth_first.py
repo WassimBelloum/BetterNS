@@ -8,6 +8,16 @@ class BreadthFirst:
         self.station_objects = {station.name: station for station in self.state.stations}
 
     def breadth_first(self, starting_station=None):
+        """
+        This function finds the best route using a breadth-first search algorithm.
+        It starts at a random station and explores all possible routes until the maximum time is reached.
+        The best route is the route that covers the most stations within the time limit.
+
+        Parameters
+        ----------
+        starting_station : Station object
+            The station to start the search from. If not given, a random station is chosen.
+        """
         queue = []
         # routes = [] # store planned route
         best_route = [] # store best route
@@ -68,6 +78,14 @@ class BreadthFirst:
         return best_route
     
     def generate_new_plans_from_best_plan(self, max_lines):
+        """
+        Function to generate new plans from the best plan found by the breadth-first search algorithm.
+
+        Parameters
+        ----------
+        max_lines : int
+            Maximum number of lines to generate.
+        """
         new_plans = []
 
         while len(new_plans) < max_lines:
@@ -88,6 +106,9 @@ class BreadthFirst:
         return new_plans
     
     def reset_class(self):
+        """
+        Function to reset the class attributes to their initial values.
+        """
         self.state = None
         self.max_time = None
         self.visited_stations = None
