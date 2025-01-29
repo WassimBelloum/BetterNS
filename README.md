@@ -71,14 +71,6 @@ Met uitzondering van het breadth first algoritme. Deze moet met aanhalings teken
 python3 main.py "breadth first" 10
 ```
 
-### Data
-
-Wij hebben zelf al experimenten gedaan om de verschillende algoritmes te vergelijken. De data hiervan is opgeslagen. Met onderstaande link wordt je doorverwezen naar een Google Drive, waar je deze kan downloaden.
-
-Link naar databestand: [output.csv](https://drive.google.com/file/d/1t7gX7bm0S-SrIda9_g1jyAehxsswfuCS/view?usp=drive_link)
-
-Deze file moet opgeslagen worden met de naam output.csv in de map results. Mocht het nog niet helemaal duidelijk zijn, staat in de mappenstructuur die later te vinden is nog eens waar deze file opgeslagen wordt. Er kan ook gekozen worden om geen data te importeren en zelf data te genereren in een nieuw bestand. Als het bestand niet te vinden is in de results map, maakt hij automatisch een nieuwe file met de juiste kolomnamen en wordt de data vervolgens hierin gezet.
-
 ## Experimenten runnen
 
 Om de experimenten te runnen gebruik je de volgende command:
