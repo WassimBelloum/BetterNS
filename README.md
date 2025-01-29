@@ -16,11 +16,11 @@ Er zijn vier verschillende algoritmes geïmplementeerd om de dienstregeling te o
 
 ### Random
 
-De toepassing van een random algoritme op onze casus werkt als volgt. Er wordt ene leeg traject gemaakt. In dit traject wordt een random startstation gekozen. Vervolgens kiest het algoritme een random verbinding van dit station. Dit blijft hij doen totdat hij op de tijdslimiet van 180 minuten voor een traject zit. Vervolgens herhaalt dit proces zich 20 keer om zo een volledig random lijnvoering te krijgen. 
+De toepassing van een random algoritme op onze casus werkt als volgt. Er wordt ene leeg traject gemaakt. In dit traject wordt een random startstation gekozen. Vervolgens kiest het algoritme een random verbinding van dit station. Dit blijft hij doen totdat hij op de tijdslimiet van 180 minuten voor een traject zit. Vervolgens herhaalt dit proces zich 20 keer om zo een volledig random lijnvoering te krijgen.
 
 ### Random-Greedy
 
-Een greedy algoritme zal altijd kiezen voor de kortste route. Als dit op de RailNL casus toegepast wordt, dan wordt nog steeds eerst een random startstation gekozen. Vervolgens wordt er een lijst gemaakt met alle verbindingen van dit station die nog geen enkele keer gereden zijn in de gehele lijnvoering. Vervolgens kiest het algoritme de kortste van deze verbindingen. Dit blijft hij wederom doen totdat hij 180 minuten rijdt. Dit proces herhaalt zich totdat er 20 trajecten zijn, of totdat alle verbindingen minimaal 1x gereden zijn. 
+Een greedy algoritme zal altijd kiezen voor de kortste route. Als dit op de RailNL casus toegepast wordt, dan wordt nog steeds eerst een random startstation gekozen. Vervolgens wordt er een lijst gemaakt met alle verbindingen van dit station die nog geen enkele keer gereden zijn in de gehele lijnvoering. Vervolgens kiest het algoritme de kortste van deze verbindingen. Dit blijft hij wederom doen totdat hij 180 minuten rijdt. Dit proces herhaalt zich totdat er 20 trajecten zijn, of totdat alle verbindingen minimaal 1x gereden zijn.
 
 ### Hillclimber
 
@@ -28,7 +28,7 @@ Een Hillclimber algoritme is een iteratief algoritme. In ons geval worden 100.00
 
 ### Breadth First
 
-uitleg breadth first
+Een breadth first algoritme is een constructief algoritme. Onze implementatie van het breadth first algoritme is als volgt. Eerst kiest het algoritme een random startstation. Vervolgens kijkt het algoritme naar alle connecties van dit station. Dan vraagt het algoritme het object op van de huidige connectie. Dit wordt herhaald tot het tijdslimiet van 180 minuten is bereikt. Welk traject in deze 180 minuten bij de meeste stations is geweest is dan het beste traject. Uit alle stations die niet zijn gebruikt in dit traject wordt vervolgens een random nieuwe startstation gekozen en wordt het breadth first algoritme nog een keer toegepast. Dit proces herhaalt zich totdat er 20 trajecten zijn.
 
 ## Aan de slag
 
@@ -64,7 +64,8 @@ python3 main.py "breadth first" 10
 ```
 
 ### Data
-Wij hebben zelf al experimenten gedaan om de verschillende algoritmes te vergelijken. De data hiervan is opgeslagen. Met onderstaande link wordt je doorverwezen naar een Google Drive, waar je deze kan downloaden. 
+
+Wij hebben zelf al experimenten gedaan om de verschillende algoritmes te vergelijken. De data hiervan is opgeslagen. Met onderstaande link wordt je doorverwezen naar een Google Drive, waar je deze kan downloaden.
 
 Link naar databestand: [output.csv](https://drive.google.com/file/d/1t7gX7bm0S-SrIda9_g1jyAehxsswfuCS/view?usp=drive_link)
 
