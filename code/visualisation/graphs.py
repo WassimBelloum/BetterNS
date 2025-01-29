@@ -91,10 +91,6 @@ def results_comparison(*score_label_pairs, step=500, max_x=10000):
 #
 #     results_comparison((list1, name1), (list2, name2), (list3, name3), step=2000)
 
-
-
-
-
 def curve_diagram(score_run: list[float]):
     """
     A makes a diagram were Y axis the score is and the X axis the run number.
@@ -105,6 +101,5 @@ def curve_diagram(score_run: list[float]):
     plt.ylabel('Score')
     plt.title('Timeline of scores over iterations')
     plt.ylim(0, 7500)
-    plt.xlim(0, 100000)
     plt.grid(True)
     plt.show()
