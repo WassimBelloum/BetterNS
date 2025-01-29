@@ -1,4 +1,3 @@
-import copy
 import random
 
 from .randomise import Random

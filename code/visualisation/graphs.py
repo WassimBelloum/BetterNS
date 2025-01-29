@@ -101,8 +101,8 @@ def curve_diagram(score_run: list[(int, float)]):
     """
     for x, k in score_run:
         plt.plot(x, k, 'ro')
-    plt.xlabel('Run')
+    plt.xlabel('Iteration')
     plt.ylabel('Score')
-    plt.title('Score vs Run')
+    plt.title('Score vs Iteration')
     plt.grid(True)
     plt.show()
