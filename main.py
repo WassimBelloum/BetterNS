@@ -63,7 +63,8 @@ if __name__ == "__main__":
         
         # Map of best random plan
         best_plan = visualisation.load_endstate(df, "Random", test_state)
-        visualisation.map_stations(test_state.stations, best_plan)
+        if best_plan:
+            visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Random Greedy --------------------
     elif algorithm == "Greedy" or algorithm == "greedy":
@@ -77,7 +78,8 @@ if __name__ == "__main__":
         
         # Map of best greedy plan
         best_plan = visualisation.load_endstate(df, "Greedy", test_state)
-        visualisation.map_stations(test_state.stations, best_plan)
+        if best_plan:
+            visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Breadth First --------------------
     elif algorithm == "Breadth First" or algorithm == "Breadth first" or algorithm == "breadth first":
@@ -93,7 +95,8 @@ if __name__ == "__main__":
         
         # Map of best breadth first plan
         best_plan = visualisation.load_endstate(df, "Breadth First", test_state)
-        visualisation.map_stations(test_state.stations, best_plan)
+        if best_plan:
+            visualisation.map_stations(test_state.stations, best_plan)
     
     # -------------------- Hill Climber --------------------
     elif algorithm == "Hillclimber" or algorithm == "HillClimber" or algorithm == "hillclimber":
@@ -111,7 +114,8 @@ if __name__ == "__main__":
         
         # Map of best hill climber plan
         best_plan = visualisation.load_endstate(df, "Hillclimber", test_state)
-        visualisation.map_stations(test_state.stations, best_plan)
+        if best_plan:    
+            visualisation.map_stations(test_state.stations, best_plan)
     
     else:
         print("Wrong input for algorithm")

@@ -126,31 +126,34 @@ def load_endstate(df, algorithm, test_state):
     random_rows = df[df['Algorithm'] == algorithm]
 
     # Select the row with the highest score
-    best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
+    if not random_rows.empty:
+        best_random_row = random_rows.loc[random_rows['Score'].idxmax()]
 
-    # Extract the endstate as a string
-    best_random_plan_string = best_random_row['Endstate']
+        # Extract the endstate as a string
+        best_random_plan_string = best_random_row['Endstate']
 
-    # Use regular expressions to ensure any station name is quoted
-    quoted_plan_string = re.sub(
-        r'\b([A-Za-z\-\s\/]+)\b',
-        r'"\1"',
-        best_random_plan_string
-    )
+        # Use regular expressions to ensure any station name is quoted
+        quoted_plan_string = re.sub(
+            r'\b([A-Za-z\-\s\/]+)\b',
+            r'"\1"',
+            best_random_plan_string
+        )
 
-    # Safely evaluate the string as a Python literal
-    best_plan = ast.literal_eval(quoted_plan_string)
+        # Safely evaluate the string as a Python literal
+        best_plan = ast.literal_eval(quoted_plan_string)
 
-    # Match each connection with its corresponding object in test_state
-    for line in best_plan:
-        for connection1 in line:
-            start, end, time1 = connection1
-            for key, value in test_state.connections.items():
-                station_a = value.station_a
-                station_b = value.station_b
-                if start == station_a and end == station_b:
-                    connection1 = value
-    return best_plan
+        # Match each connection with its corresponding object in test_state
+        for line in best_plan:
+            for connection1 in line:
+                start, end, time1 = connection1
+                for key, value in test_state.connections.items():
+                    station_a = value.station_a
+                    station_b = value.station_b
+                    if start == station_a and end == station_b:
+                        connection1 = value
+        return best_plan
+    else:
+        return None
 
 # Example usage:
 # best_plan = load_endstate(df, "Greedy", test_state) 
