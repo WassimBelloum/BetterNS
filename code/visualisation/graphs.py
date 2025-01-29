@@ -100,9 +100,11 @@ def curve_diagram(score_run: list[float]):
     A makes a diagram were Y axis the score is and the X axis the run number.
     """
     for i, k in enumerate(score_run):
-        plt.plot(i, k, 'ro')
+        plt.plot(i, k, 'bo', markersize = 5)
     plt.xlabel('Iteration')
     plt.ylabel('Score')
-    plt.title('Score vs Iteration')
+    plt.title('Timeline of scores over iterations')
+    plt.ylim(0, 7500)
+    plt.xlim(0, 100000)
     plt.grid(True)
     plt.show()

@@ -26,7 +26,7 @@ if __name__ == "__main__":
     test_state = state.State("data/ConnectiesNationaal.csv", "data/StationsNationaal.csv")
     
     # Set random seed
-    random.seed(204)
+    random.seed(205)
     
     # Set max lines and time
     max_lines = 20
