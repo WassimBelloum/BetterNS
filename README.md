@@ -14,39 +14,17 @@ pip install -r requirements.txt
 
 ### Gebruik
 
-Om de code te kunnen gebruiken moet je in de main.py de juiste algoritmes (un)hashen.
-
-Alle algoritmes worden op de volgende manier aangegeven:
-
-```python
-# -------------------- Random --------------------
-```
-
-Onder zo een comment kan het algoritme een keer en meerdere keren worden gerund.
-
-Code voor een keer runnen:
-
-```python
-# Single Random plan
-random_train_plan = random.random_plan()
-    K = test_state.score(random_train_plan)
-    print(K)
-```
-
-Code voor meerdere keren runnen:
-
-```python
-# Random loop
-for x in range(100000):
-        random_train_plan = random.random_plan()
-        K = test_state.score(random_train_plan)
-        sld.write_to_csv(x, last_id, K, "Random", random_train_plan)
-```
-
-Dan kan je de code runnen met de volgende command:
+Om de code te kunnen gebruiken gebruik je de volgende commands:
 
 ```bash
-python3 main.py
+python3 main.py <algoritme> --iterations <aantal iteraties> 
+```
+
+Standaard is het aantal iteraties 1.
+Dus om bijvoorbeeld het breadth_first algoritme te runnen met 100 iteraties gebruik je de volgende command:
+
+```bash
+python3 main.py breadth_first --iterations 100
 ```
 
 Hier is de link naar de output.csv file:
