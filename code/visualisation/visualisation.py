@@ -48,7 +48,7 @@ def map_stations(stations, train_plan):
         folium.CircleMarker(
             location=[y, x],
             radius=3,
-            color="blue",
+            color="yellow",
             fill=True,
             fill_color="blue",
             fill_opacity=0.7,
@@ -88,7 +88,7 @@ def map_stations(stations, train_plan):
                 ).add_to(m)
 
     # Save the map
-    m.save('Map_Netherlands.html')
+    m.save('results/Map_Netherlands.html')
 
     # Example usage:
     # map_stations(stations, best_plan)

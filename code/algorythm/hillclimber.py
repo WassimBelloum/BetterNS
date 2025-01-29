@@ -1,6 +1,5 @@
-import copy
 import random
-
+import csv
 from .randomise import Random
 
 class HillClimber:
@@ -67,6 +66,8 @@ class HillClimber:
         """
         Runs the hillclimber algorithm for a specific amount of iterations.
         """
+        # A list to keep track of the scores per iteration
+        scores_per_iteration = []
         for iteration in range(iterations):
             # Generate number between 1 and 3 and change that amount of lines
             mutate_count = random.randint(1, 3)
@@ -74,7 +75,19 @@ class HillClimber:
             # If new solution is not better, revert the changes
             if not self.check_solution():
                 self.revert_mutation(removed_lines, added_lines)
-    
+            # Append the score to scores_per_iteration list
+            scores_per_iteration.append(self.value)
+        
+        # Sla nu alle scores op in CSV
+        with open("results/hillclimber_scores_output.csv", "w", newline="") as csvfile:
+            writer = csv.writer(csvfile)
+            # Eventueel een header
+            writer.writerow(["Score"])
+            
+            # Iteratie in volgorde uitschrijven
+            for score in scores_per_iteration:
+                writer.writerow([score])
+        
     def reset_class(self):
         """
         Reset the class to allow looping.

@@ -95,14 +95,14 @@ def results_comparison(*score_label_pairs, step=500, max_x=10000):
 
 
 
-def curve_diagram(score_run: list[(int, float)]):
+def curve_diagram(score_run: list[float]):
     """
     A makes a diagram were Y axis the score is and the X axis the run number.
     """
-    for x, k in score_run:
-        plt.plot(x, k, 'ro')
-    plt.xlabel('Run')
+    for i, k in enumerate(score_run):
+        plt.plot(i, k, 'ro')
+    plt.xlabel('Iteration')
     plt.ylabel('Score')
-    plt.title('Score vs Run')
+    plt.title('Score vs Iteration')
     plt.grid(True)
     plt.show()
