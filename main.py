@@ -31,6 +31,12 @@ def breadth_first(iterations):
         print(K)
         bfs.reset_class
 
+def random_(iterations):
+    print("Running Random algorithm")
+    for x in range(100000):
+        random_train_plan = random.random_plan()
+        K = test_state.score(random_train_plan)
+        print(K)
 
 if __name__ == "__main__":
     # Create test state
@@ -184,7 +190,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if args.algorithm == "random":
-        pass
+        random_(args.iterations)
     elif args.algorithm == "greedy":
         pass
     elif args.algorithm == "hc":
