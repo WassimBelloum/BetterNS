@@ -73,7 +73,7 @@ python3 main.py "breadth first" 10
 
 ## Experimenten runnen
 
-Om de experimenten te runnen gebruik je de volgende command:
+Om de experimenten te runnen gebruik je de volgende commands:
 
 ### Plots runnen
 
@@ -89,7 +89,7 @@ Voorbeeld om het random algorithm te plotten:
 python3 plot.py random
 ```
 
-Het maakt niet uit of u een kleine of groote eerste letter gebruikt.
+Het maakt niet uit of je een kleine of groote eerste letter gebruikt en het is belangrijk dat je naar visualisation directory gaat voordat je deze commands runt.
 
 ### Uitzonderingen
 
@@ -99,7 +99,7 @@ Als je de command 'All' gebruikt, wordt er een plot gemaakt van alle algoritmes 
 python3 plot.py All
 ```
 
-Om een curve diagram te maken, kunt u de volgende command runnen:
+Om een curve diagram te maken, kun je de volgende command runnen:
 
 ```bash
 python3 plot.py hillclimbercurve
