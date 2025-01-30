@@ -1,6 +1,20 @@
 import random
 
 class BreadthFirst:
+    """
+    Class to find the best route using a breadth-first search algorithm and generate new plans from it.
+
+    Parameters
+    ----------
+    state : State object
+        The state object containing the stations and connections.
+    max_time : int
+        The maximum travel time.
+    visited_stations : set
+        Set of visited stations.
+    station_objects : dict
+        Dictionary containing the station names as keys and the station objects as values.
+    """
     def __init__(self, state, max_time):
         self.state = state
         self.max_time = max_time
@@ -19,7 +33,6 @@ class BreadthFirst:
             The station to start the search from. If not given, a random station is chosen.
         """
         queue = []
-        # routes = [] # store planned route
         best_route = [] # store best route
         best_time = float('inf') # store best time
         max_stations_covered = 0
@@ -29,8 +42,6 @@ class BreadthFirst:
             starting_station = random.choice(self.state.stations)
 
         queue.append((starting_station, 0, [])) # add the starting station to the queue
-        
-        # print(f"Starting station: {starting_station.name}\n")
 
         while queue:
             #-- take the first state of the queue --#
@@ -41,11 +52,11 @@ class BreadthFirst:
             station_b_set = {connection.station_b for connection in route_conn} # set of stations at station_b
             unique_stations = station_a_set.union(station_b_set) # set of unique stations from station_a and station_b
 
+            #-- check if the current route is the best route --#
             if len(unique_stations) > max_stations_covered or ((len(unique_stations) == max_stations_covered) and current_time < best_time):
                 max_stations_covered = len(unique_stations) # update max_stations_covered
                 best_time = current_time # update best_time
                 best_route = route_conn # update best_route
-            # routes.append(route_conn)
 
             #-- choose next station --#
             # loop through the connections of the current station
@@ -66,10 +77,10 @@ class BreadthFirst:
                 
                 next_time = current_time + connection.time
 
+                #-- check if the next station is not visited and the time is within the limit --#
                 if next_time <= self.max_time and connection not in route_conn:
                     new_conn = route_conn + [connection]
                     queue.append((next_station_object, next_time, new_conn))
-                    # print(f"Adding route: {new_conn} with time: {next_time}")
         
         for connection in best_route:
             self.visited_stations.add(connection.station_a)
@@ -95,7 +106,6 @@ class BreadthFirst:
                 if station.name not in self.visited_stations:
                     unvisited_stations.append(station)
             if not unvisited_stations:
-                # print("All stations have been visited.")
                 break
 
             start_station = random.choice(unvisited_stations)
